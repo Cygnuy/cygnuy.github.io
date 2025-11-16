@@ -1,0 +1,1294 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cygnuy的个人空间</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <style>
+        :root {
+            --primary-color: #1a73e8;
+            --primary-light: #e8f0fe;
+            --secondary-color: #34a853;
+            --accent-color: #fbbc04;
+            --warning-color: #ea4335;
+            --background-color: #ffffff;
+            --surface-color: #f8f9fa;
+            --card-color: #ffffff;
+            --text-primary: #202124;
+            --text-secondary: #5f6368;
+            --text-tertiary: #80868b;
+            --border-color: #dadce0;
+            --shadow: 0 1px 2px 0 rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15);
+            --shadow-hover: 0 1px 3px 0 rgba(60, 64, 67, 0.3), 0 4px 8px 3px rgba(60, 64, 67, 0.15);
+            --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            --border-radius: 8px;
+            --card-border-radius: 12px;
+        }
+
+        .dark-mode {
+            --primary-color: #8ab4f8;
+            --primary-light: #1e3a5f;
+            --secondary-color: #81c995;
+            --accent-color: #fdd663;
+            --warning-color: #f28b82;
+            --background-color: #202124;
+            --surface-color: #2d2e30;
+            --card-color: #303134;
+            --text-primary: #e8eaed;
+            --text-secondary: #9aa0a6;
+            --text-tertiary: #80868b;
+            --border-color: #3c4043;
+            --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.3), 0 4px 8px 3px rgba(0, 0, 0, 0.15);
+            --shadow-hover: 0 1px 3px 0 rgba(0, 0, 0, 0.3), 0 4px 8px 3px rgba(0, 0, 0, 0.25);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-primary);
+            line-height: 1.6;
+            transition: var(--transition);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* 导航栏样式 - 谷歌风格 */
+        header {
+            background-color: var(--card-color);
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.25rem;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .logo-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary-color), #6c5ce7);
+            border-radius: 50%;
+            color: white;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 0.5rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-links a:hover {
+            background-color: var(--surface-color);
+            color: var(--text-primary);
+        }
+
+        .nav-links a.active {
+            background-color: var(--primary-light);
+            color: var(--primary-color);
+        }
+
+        .theme-toggle {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 1.2rem;
+            padding: 0.5rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+
+        .theme-toggle:hover {
+            background-color: var(--surface-color);
+        }
+
+        /* 主内容区样式 */
+        main {
+            padding: 2rem 0;
+            min-height: calc(100vh - 140px);
+        }
+
+        .section {
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section-title {
+            font-size: 1.75rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .section-title i {
+            color: var(--primary-color);
+        }
+
+        /* 卡片样式 */
+        .card {
+            background-color: var(--card-color);
+            border-radius: var(--card-border-radius);
+            box-shadow: var(--shadow);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            transition: var(--transition);
+            border: 1px solid var(--border-color);
+        }
+
+        .card:hover {
+            box-shadow: var(--shadow-hover);
+        }
+
+        /* 首页样式 */
+        .welcome-container {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+        }
+
+        .welcome-text h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--primary-color), #6c5ce7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .welcome-text p {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .feature-card {
+            background-color: var(--surface-color);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            text-align: center;
+            transition: var(--transition);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+
+        .feature-card h3 {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-card p {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* 游戏区域样式 */
+        .games-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .game-selector {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .game-btn {
+            padding: 0.75rem 1.5rem;
+            background-color: var(--surface-color);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 500;
+            color: var(--text-secondary);
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .game-btn:hover {
+            background-color: var(--primary-light);
+            color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        .game-btn.active {
+            background-color: var(--primary-light);
+            color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        .game-area {
+            display: none;
+        }
+
+        .game-area.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        /* 扫雷游戏样式 */
+        .minesweeper-controls {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .minesweeper-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 0.5rem 1rem;
+            background-color: var(--surface-color);
+            border-radius: var(--border-radius);
+        }
+
+        .minesweeper-board {
+            display: grid;
+            gap: 2px;
+            margin: 0 auto;
+            background-color: var(--border-color);
+            border: 2px solid var(--border-color);
+            justify-content: center;
+            max-width: 100%;
+            overflow: auto;
+        }
+
+        .cell {
+            aspect-ratio: 1;
+            background-color: var(--card-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-weight: 600;
+            user-select: none;
+            min-width: 30px;
+            transition: var(--transition);
+        }
+
+        .cell:hover {
+            background-color: var(--surface-color);
+        }
+
+        .cell.revealed {
+            background-color: var(--surface-color);
+        }
+
+        .cell.mine {
+            background-color: var(--warning-color);
+            color: white;
+        }
+
+        .cell.flagged::before {
+            content: "🚩";
+        }
+
+        /* 按钮样式 */
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: var(--transition);
+            font-family: inherit;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #1669d6;
+            box-shadow: 0 2px 5px rgba(26, 115, 232, 0.3);
+        }
+
+        .btn-success {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+
+        .btn-success:hover {
+            background-color: #2d9247;
+        }
+
+        .btn-warning {
+            background-color: var(--accent-color);
+            color: var(--text-primary);
+        }
+
+        .btn-warning:hover {
+            background-color: #e6ac00;
+        }
+
+        .btn-danger {
+            background-color: var(--warning-color);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background-color: #d33c2e;
+        }
+
+        /* 选择框样式 */
+        select {
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            background-color: var(--card-color);
+            color: var(--text-primary);
+            font-family: inherit;
+            transition: var(--transition);
+        }
+
+        select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px var(--primary-light);
+        }
+
+        /* 笔记区域样式 */
+        .notes-container {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 1.5rem;
+            min-height: 500px;
+        }
+
+        .notes-sidebar {
+            background-color: var(--card-color);
+            border-radius: var(--card-border-radius);
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            box-shadow: var(--shadow);
+        }
+
+        .notes-list {
+            flex-grow: 1;
+            overflow-y: auto;
+            max-height: 400px;
+        }
+
+        .note-item {
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            margin-bottom: 0.5rem;
+            cursor: pointer;
+            border-left: 3px solid var(--primary-color);
+            background-color: var(--surface-color);
+            transition: var(--transition);
+        }
+
+        .note-item.active {
+            background-color: var(--primary-light);
+            color: var(--primary-color);
+        }
+
+        .note-item:hover {
+            background-color: var(--surface-color);
+            transform: translateX(5px);
+        }
+
+        .notes-main {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .note-title-input, .note-content {
+            padding: 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            background-color: var(--card-color);
+            color: var(--text-primary);
+            font-family: inherit;
+            transition: var(--transition);
+        }
+
+        .note-title-input {
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .note-title-input:focus, .note-content:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px var(--primary-light);
+        }
+
+        .note-content {
+            flex-grow: 1;
+            resize: none;
+            min-height: 300px;
+        }
+
+        .notes-actions {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        /* 页脚样式 */
+        footer {
+            text-align: center;
+            padding: 1.5rem 0;
+            color: var(--text-secondary);
+            border-top: 1px solid var(--border-color);
+            margin-top: 2rem;
+            font-size: 0.9rem;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .notes-container {
+                grid-template-columns: 1fr;
+                grid-template-rows: auto 1fr;
+            }
+
+            .welcome-container {
+                grid-template-columns: 1fr;
+            }
+
+            .minesweeper-board {
+                grid-template-columns: repeat(8, 1fr);
+                max-width: 320px;
+            }
+
+            .notes-actions {
+                flex-direction: column;
+            }
+
+            .game-selector {
+                flex-direction: column;
+            }
+            
+            .section-title {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">
+                    <div class="logo-icon">
+                        <i class="fas fa-user-astronaut"></i>
+                    </div>
+                    <span>Cygnuy的空间</span>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="#home" class="nav-link active"><i class="fas fa-home"></i> 首页</a></li>
+                    <li><a href="#games" class="nav-link"><i class="fas fa-gamepad"></i> 游戏中心</a></li>
+                    <li><a href="#notes" class="nav-link"><i class="fas fa-sticky-note"></i> 笔记</a></li>
+                </ul>
+                <button class="theme-toggle" id="themeToggle">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <section id="home" class="section active">
+            <div class="card">
+                <div class="welcome-container">
+                    <div class="welcome-text">
+                        <h1>欢迎来到我的个人空间</h1>
+                        <p>这里是一个集成了游戏和笔记功能的多功能网页应用。简洁的设计，流畅的体验，希望能给你带来愉快的使用感受。</p>
+                        <div class="features-grid">
+                            <div class="feature-card">
+                                <div class="feature-icon">
+                                    <i class="fas fa-gamepad"></i>
+                                </div>
+                                <h3>游戏中心</h3>
+                                <p>扫雷、井字棋等多种游戏</p>
+                            </div>
+                            <div class="feature-card">
+                                <div class="feature-icon">
+                                    <i class="fas fa-sticky-note"></i>
+                                </div>
+                                <h3>个人笔记</h3>
+                                <p>随时随地记录想法</p>
+                            </div>
+                            <div class="feature-card">
+                                <div class="feature-icon">
+                                    <i class="fas fa-palette"></i>
+                                </div>
+                                <h3>主题切换</h3>
+                                <p>亮色/暗黑模式随心切换</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="welcome-image">
+                        <div style="background: linear-gradient(135deg, var(--primary-color), #6c5ce7); height: 100%; border-radius: var(--card-border-radius); display: flex; align-items: center; justify-content: center; color: white; font-size: 5rem;">
+                            <i class="fas fa-user-astronaut"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="games" class="section">
+            <h2 class="section-title"><i class="fas fa-gamepad"></i> 游戏中心</h2>
+            
+            <div class="card">
+                <div class="game-selector">
+                    <button class="game-btn active" data-game="minesweeper">
+                        <i class="fas fa-bomb"></i> 扫雷
+                    </button>
+                    <button class="game-btn" data-game="tictactoe">
+                        <i class="fas fa-times"></i> 井字棋
+                    </button>
+                </div>
+
+                <div id="minesweeper" class="game-area active">
+                    <div class="minesweeper-controls">
+                        <select id="difficulty">
+                            <option value="easy">简单 (8×8, 10雷)</option>
+                            <option value="medium" selected>中等 (10×10, 20雷)</option>
+                            <option value="hard">困难 (12×12, 40雷)</option>
+                        </select>
+                        <button id="resetMinesweeper" class="btn btn-primary">
+                            <i class="fas fa-redo"></i> 重新开始
+                        </button>
+                    </div>
+                    <div class="minesweeper-info">
+                        <div class="info-item">
+                            <i class="fas fa-bomb"></i>
+                            <span>地雷: <span id="mineCount">20</span></span>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-clock"></i>
+                            <span>时间: <span id="gameTimer">0</span>秒</span>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-info-circle"></i>
+                            <span>状态: <span id="gameStatus">游戏中</span></span>
+                        </div>
+                    </div>
+                    <div class="minesweeper-board" id="minesweeperBoard"></div>
+                </div>
+
+                <div id="tictactoe" class="game-area">
+                    <div class="minesweeper-controls">
+                        <select id="gameMode">
+                            <option value="twoPlayer">双人对战</option>
+                            <option value="ai">人机对战</option>
+                        </select>
+                        <button id="resetTictactoe" class="btn btn-primary">
+                            <i class="fas fa-redo"></i> 重新开始
+                        </button>
+                    </div>
+                    <div class="minesweeper-info">
+                        <div class="info-item">
+                            <i class="fas fa-user"></i>
+                            <span>当前玩家: <span id="currentPlayer">X</span></span>
+                        </div>
+                    </div>
+                    <div class="tic-tac-toe-board" id="tictactoeBoard"></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="notes" class="section">
+            <h2 class="section-title"><i class="fas fa-sticky-note"></i> 笔记</h2>
+            
+            <div class="card">
+                <div class="notes-container">
+                    <div class="notes-sidebar">
+                        <button id="newNote" class="btn btn-primary">
+                            <i class="fas fa-plus"></i> 新建笔记
+                        </button>
+                        <div class="notes-list" id="notesList"></div>
+                        <div style="margin-top: auto; padding-top: 1rem; border-top: 1px solid var(--border-color);">
+                            <p style="font-size: 0.85rem; color: var(--text-secondary); text-align: center;">
+                                笔记自动保存在浏览器本地
+                            </p>
+                        </div>
+                    </div>
+                    <div class="notes-main">
+                        <input type="text" class="note-title-input" id="noteTitle" placeholder="笔记标题">
+                        <textarea class="note-content" id="noteContent" placeholder="开始记录你的想法..."></textarea>
+                        <div class="notes-actions">
+                            <button id="saveNote" class="btn btn-success">
+                                <i class="fas fa-save"></i> 保存笔记
+                            </button>
+                            <button id="deleteNote" class="btn btn-danger">
+                                <i class="fas fa-trash"></i> 删除笔记
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>© 2023 Cygnuy的个人空间 | 简洁 · 实用 · 美观</p>
+        </div>
+    </footer>
+
+    <script>
+        // 修复导航功能
+        document.addEventListener('DOMContentLoaded', function() {
+            // 导航切换
+            const navLinks = document.querySelectorAll('.nav-link');
+            const sections = document.querySelectorAll('.section');
+            
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // 移除所有active类
+                    navLinks.forEach(l => l.classList.remove('active'));
+                    sections.forEach(s => s.classList.remove('active'));
+                    
+                    // 添加active类到当前链接
+                    this.classList.add('active');
+                    
+                    // 显示对应的section
+                    const targetId = this.getAttribute('href').substring(1);
+                    document.getElementById(targetId).classList.add('active');
+                });
+            });
+            
+            // 游戏切换
+            const gameBtns = document.querySelectorAll('.game-btn');
+            const gameAreas = document.querySelectorAll('.game-area');
+            
+            gameBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const game = this.getAttribute('data-game');
+                    
+                    // 移除所有active类
+                    gameBtns.forEach(b => b.classList.remove('active'));
+                    gameAreas.forEach(a => a.classList.remove('active'));
+                    
+                    // 添加active类到当前游戏
+                    this.classList.add('active');
+                    document.getElementById(game).classList.add('active');
+                });
+            });
+            
+            // 暗黑模式切换
+            const themeToggle = document.getElementById('themeToggle');
+            const themeIcon = themeToggle.querySelector('i');
+            
+            // 检查保存的主题偏好
+            if (localStorage.getItem('darkMode') === 'true') {
+                document.body.classList.add('dark-mode');
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+            }
+            
+            themeToggle.addEventListener('click', () => {
+                document.body.classList.toggle('dark-mode');
+                if (document.body.classList.contains('dark-mode')) {
+                    themeIcon.classList.remove('fa-moon');
+                    themeIcon.classList.add('fa-sun');
+                    localStorage.setItem('darkMode', 'true');
+                } else {
+                    themeIcon.classList.remove('fa-sun');
+                    themeIcon.classList.add('fa-moon');
+                    localStorage.setItem('darkMode', 'false');
+                }
+            });
+            
+            // 初始化功能
+            initializeMinesweeper();
+            initializeTictactoe();
+            renderNotesList();
+        });
+
+        // 扫雷游戏实现
+        const minesweeperBoard = document.getElementById('minesweeperBoard');
+        const mineCountElement = document.getElementById('mineCount');
+        const gameTimerElement = document.getElementById('gameTimer');
+        const gameStatusElement = document.getElementById('gameStatus');
+        const resetMinesweeperBtn = document.getElementById('resetMinesweeper');
+        const difficultySelect = document.getElementById('difficulty');
+
+        let mineCount = 20;
+        let gameTimer = 0;
+        let timerInterval;
+        let gameBoard = [];
+        let revealedCells = 0;
+        let totalCells = 0;
+        let gameOver = false;
+        let boardSize = 10;
+
+        // 难度设置
+        const difficultySettings = {
+            easy: { size: 8, mines: 10 },
+            medium: { size: 10, mines: 20 },
+            hard: { size: 12, mines: 40 }
+        };
+
+        function initializeMinesweeper() {
+            clearInterval(timerInterval);
+            gameTimer = 0;
+            gameTimerElement.textContent = gameTimer;
+            revealedCells = 0;
+            gameOver = false;
+            gameStatusElement.textContent = "游戏中";
+            
+            // 获取难度设置
+            const difficulty = difficultySelect.value;
+            boardSize = difficultySettings[difficulty].size;
+            mineCount = difficultySettings[difficulty].mines;
+            mineCountElement.textContent = mineCount;
+            
+            // 创建游戏板
+            minesweeperBoard.innerHTML = '';
+            minesweeperBoard.style.gridTemplateColumns = `repeat(${boardSize}, 1fr)`;
+            gameBoard = [];
+            totalCells = boardSize * boardSize;
+            
+            // 初始化游戏板
+            for (let i = 0; i < boardSize; i++) {
+                gameBoard[i] = [];
+                for (let j = 0; j < boardSize; j++) {
+                    gameBoard[i][j] = {
+                        isMine: false,
+                        isRevealed: false,
+                        isFlagged: false,
+                        neighborMines: 0
+                    };
+                    
+                    const cell = document.createElement('div');
+                    cell.className = 'cell';
+                    cell.dataset.row = i;
+                    cell.dataset.col = j;
+                    
+                    cell.addEventListener('click', () => revealCell(i, j));
+                    cell.addEventListener('contextmenu', (e) => {
+                        e.preventDefault();
+                        toggleFlag(i, j);
+                    });
+                    
+                    minesweeperBoard.appendChild(cell);
+                }
+            }
+            
+            // 随机放置地雷
+            placeMines();
+            
+            // 计算每个单元格周围的地雷数
+            calculateNeighborMines();
+        }
+
+        function placeMines() {
+            let minesPlaced = 0;
+            while (minesPlaced < mineCount) {
+                const row = Math.floor(Math.random() * boardSize);
+                const col = Math.floor(Math.random() * boardSize);
+                
+                if (!gameBoard[row][col].isMine) {
+                    gameBoard[row][col].isMine = true;
+                    minesPlaced++;
+                }
+            }
+        }
+
+        function calculateNeighborMines() {
+            for (let i = 0; i < boardSize; i++) {
+                for (let j = 0; j < boardSize; j++) {
+                    if (!gameBoard[i][j].isMine) {
+                        let count = 0;
+                        for (let di = -1; di <= 1; di++) {
+                            for (let dj = -1; dj <= 1; dj++) {
+                                const ni = i + di;
+                                const nj = j + dj;
+                                if (ni >= 0 && ni < boardSize && nj >= 0 && nj < boardSize && gameBoard[ni][nj].isMine) {
+                                    count++;
+                                }
+                            }
+                        }
+                        gameBoard[i][j].neighborMines = count;
+                    }
+                }
+            }
+        }
+
+        function revealCell(row, col) {
+            if (gameOver || gameBoard[row][col].isRevealed || gameBoard[row][col].isFlagged) {
+                return;
+            }
+            
+            // 开始计时
+            if (revealedCells === 0) {
+                startTimer();
+            }
+            
+            gameBoard[row][col].isRevealed = true;
+            revealedCells++;
+            
+            const cell = document.querySelector(`.cell[data-row="${row}"][data-col="${col}"]`);
+            cell.classList.add('revealed');
+            
+            if (gameBoard[row][col].isMine) {
+                // 游戏结束
+                cell.classList.add('mine');
+                cell.textContent = '💣';
+                endGame(false);
+            } else {
+                if (gameBoard[row][col].neighborMines > 0) {
+                    cell.textContent = gameBoard[row][col].neighborMines;
+                    // 根据周围地雷数设置不同颜色
+                    const colors = ['', 'blue', 'green', 'red', 'purple', 'maroon', 'turquoise', 'black', 'gray'];
+                    cell.style.color = colors[gameBoard[row][col].neighborMines];
+                } else {
+                    // 如果周围没有地雷，递归揭示相邻单元格
+                    for (let di = -1; di <= 1; di++) {
+                        for (let dj = -1; dj <= 1; dj++) {
+                            const ni = row + di;
+                            const nj = col + dj;
+                            if (ni >= 0 && ni < boardSize && nj >= 0 && nj < boardSize && !gameBoard[ni][nj].isRevealed) {
+                                revealCell(ni, nj);
+                            }
+                        }
+                    }
+                }
+                
+                // 检查是否获胜
+                if (revealedCells === totalCells - mineCount) {
+                    endGame(true);
+                }
+            }
+        }
+
+        function toggleFlag(row, col) {
+            if (gameOver || gameBoard[row][col].isRevealed) {
+                return;
+            }
+            
+            const cell = document.querySelector(`.cell[data-row="${row}"][data-col="${col}"]`);
+            
+            if (gameBoard[row][col].isFlagged) {
+                gameBoard[row][col].isFlagged = false;
+                cell.classList.remove('flagged');
+                mineCount++;
+            } else {
+                gameBoard[row][col].isFlagged = true;
+                cell.classList.add('flagged');
+                mineCount--;
+            }
+            
+            mineCountElement.textContent = mineCount;
+        }
+
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                gameTimer++;
+                gameTimerElement.textContent = gameTimer;
+            }, 1000);
+        }
+
+        function endGame(isWin) {
+            gameOver = true;
+            clearInterval(timerInterval);
+            
+            if (isWin) {
+                gameStatusElement.textContent = "获胜！";
+                setTimeout(() => alert('恭喜！你赢了！'), 100);
+            } else {
+                gameStatusElement.textContent = "游戏结束";
+                setTimeout(() => alert('游戏结束！你踩到了地雷。'), 100);
+                // 显示所有地雷
+                for (let i = 0; i < boardSize; i++) {
+                    for (let j = 0; j < boardSize; j++) {
+                        if (gameBoard[i][j].isMine && !gameBoard[i][j].isFlagged) {
+                            const cell = document.querySelector(`.cell[data-row="${i}"][data-col="${j}"]`);
+                            cell.classList.add('mine');
+                            cell.textContent = '💣';
+                        }
+                    }
+                }
+            }
+        }
+
+        resetMinesweeperBtn.addEventListener('click', initializeMinesweeper);
+        difficultySelect.addEventListener('change', initializeMinesweeper);
+
+        // 井字棋游戏实现
+        const tictactoeBoard = document.getElementById('tictactoeBoard');
+        const currentPlayerElement = document.getElementById('currentPlayer');
+        const resetTictactoeBtn = document.getElementById('resetTictactoe');
+        const gameModeSelect = document.getElementById('gameMode');
+
+        let currentPlayer = 'X';
+        let boardState = ['', '', '', '', '', '', '', '', ''];
+        let gameActive = true;
+
+        function initializeTictactoe() {
+            currentPlayer = 'X';
+            boardState = ['', '', '', '', '', '', '', '', ''];
+            gameActive = true;
+            currentPlayerElement.textContent = currentPlayer;
+            
+            tictactoeBoard.innerHTML = '';
+            tictactoeBoard.style.display = 'grid';
+            tictactoeBoard.style.gridTemplateColumns = 'repeat(3, 1fr)';
+            tictactoeBoard.style.gap = '5px';
+            tictactoeBoard.style.maxWidth = '300px';
+            tictactoeBoard.style.margin = '0 auto';
+            tictactoeBoard.style.backgroundColor = 'var(--border-color)';
+            
+            for (let i = 0; i < 9; i++) {
+                const tile = document.createElement('div');
+                tile.className = 'cell';
+                tile.style.aspectRatio = '1';
+                tile.style.backgroundColor = 'var(--card-color)';
+                tile.style.display = 'flex';
+                tile.style.alignItems = 'center';
+                tile.style.justifyContent = 'center';
+                tile.style.fontSize = '2rem';
+                tile.style.cursor = 'pointer';
+                tile.style.userSelect = 'none';
+                tile.dataset.index = i;
+                tile.addEventListener('click', () => handleTileClick(i));
+                tictactoeBoard.appendChild(tile);
+            }
+        }
+
+        function handleTileClick(index) {
+            if (!gameActive || boardState[index] !== '') {
+                return;
+            }
+            
+            // 玩家移动
+            boardState[index] = currentPlayer;
+            const tile = document.querySelector(`.cell[data-index="${index}"]`);
+            tile.textContent = currentPlayer;
+            tile.style.color = currentPlayer === 'X' ? 'var(--primary-color)' : 'var(--warning-color)';
+            
+            if (checkWinner()) {
+                gameActive = false;
+                setTimeout(() => alert(`玩家 ${currentPlayer} 获胜！`), 100);
+                return;
+            }
+            
+            if (boardState.every(cell => cell !== '')) {
+                gameActive = false;
+                setTimeout(() => alert('平局！'), 100);
+                return;
+            }
+            
+            // 切换玩家
+            currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+            currentPlayerElement.textContent = currentPlayer;
+            
+            // 如果是人机对战且轮到AI
+            if (gameModeSelect.value === 'ai' && currentPlayer === 'O' && gameActive) {
+                setTimeout(makeAIMove, 500);
+            }
+        }
+
+        function makeAIMove() {
+            if (!gameActive) return;
+            
+            // 简单的AI策略：先尝试获胜，再阻止玩家获胜，否则随机移动
+            let move = findWinningMove('O') || findWinningMove('X') || findRandomMove();
+            
+            if (move !== -1) {
+                boardState[move] = 'O';
+                const tile = document.querySelector(`.cell[data-index="${move}"]`);
+                tile.textContent = 'O';
+                tile.style.color = 'var(--warning-color)';
+                
+                if (checkWinner()) {
+                    gameActive = false;
+                    setTimeout(() => alert('AI获胜！'), 100);
+                    return;
+                }
+                
+                if (boardState.every(cell => cell !== '')) {
+                    gameActive = false;
+                    setTimeout(() => alert('平局！'), 100);
+                    return;
+                }
+                
+                currentPlayer = 'X';
+                currentPlayerElement.textContent = currentPlayer;
+            }
+        }
+
+        function findWinningMove(player) {
+            const winPatterns = [
+                [0, 1, 2], [3, 4, 5], [6, 7, 8], // 行
+                [0, 3, 6], [1, 4, 7], [2, 5, 8], // 列
+                [0, 4, 8], [2, 4, 6] // 对角线
+            ];
+            
+            for (const pattern of winPatterns) {
+                const [a, b, c] = pattern;
+                const cells = [boardState[a], boardState[b], boardState[c]];
+                
+                // 如果这一行有两个是当前玩家的棋子，且有一个空位，则返回空位
+                if (cells.filter(cell => cell === player).length === 2) {
+                    const emptyIndex = pattern.findIndex(i => boardState[i] === '');
+                    if (emptyIndex !== -1) {
+                        return pattern[emptyIndex];
+                    }
+                }
+            }
+            
+            return -1;
+        }
+
+        function findRandomMove() {
+            const emptyCells = boardState
+                .map((cell, index) => cell === '' ? index : -1)
+                .filter(index => index !== -1);
+            
+            if (emptyCells.length === 0) return -1;
+            
+            const randomIndex = Math.floor(Math.random() * emptyCells.length);
+            return emptyCells[randomIndex];
+        }
+
+        function checkWinner() {
+            const winPatterns = [
+                [0, 1, 2], [3, 4, 5], [6, 7, 8], // 行
+                [0, 3, 6], [1, 4, 7], [2, 5, 8], // 列
+                [0, 4, 8], [2, 4, 6] // 对角线
+            ];
+            
+            return winPatterns.some(pattern => {
+                const [a, b, c] = pattern;
+                return boardState[a] !== '' && 
+                       boardState[a] === boardState[b] && 
+                       boardState[a] === boardState[c];
+            });
+        }
+
+        resetTictactoeBtn.addEventListener('click', initializeTictactoe);
+        gameModeSelect.addEventListener('change', initializeTictactoe);
+
+        // 笔记功能实现
+        const newNoteBtn = document.getElementById('newNote');
+        const saveNoteBtn = document.getElementById('saveNote');
+        const deleteNoteBtn = document.getElementById('deleteNote');
+        const noteTitleInput = document.getElementById('noteTitle');
+        const noteContentInput = document.getElementById('noteContent');
+        const notesList = document.getElementById('notesList');
+
+        let notes = JSON.parse(localStorage.getItem('notes')) || [];
+        let currentNoteId = null;
+
+        function renderNotesList() {
+            notesList.innerHTML = '';
+            
+            if (notes.length === 0) {
+                notesList.innerHTML = '<div style="text-align: center; padding: 2rem; color: var(--text-secondary);"><i class="fas fa-sticky-note" style="font-size: 2rem; margin-bottom: 1rem; opacity: 0.5;"></i><p>暂无笔记</p></div>';
+                return;
+            }
+            
+            notes.forEach(note => {
+                const noteItem = document.createElement('div');
+                noteItem.className = 'note-item';
+                if (currentNoteId === note.id) {
+                    noteItem.classList.add('active');
+                }
+                
+                const title = note.title || '无标题笔记';
+                const date = new Date(note.date).toLocaleDateString();
+                const preview = note.content.substring(0, 30) + (note.content.length > 30 ? '...' : '');
+                
+                noteItem.innerHTML = `
+                    <div style="font-weight: 600; margin-bottom: 0.5rem;">${title}</div>
+                    <div style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.25rem;">${preview}</div>
+                    <div style="font-size: 0.75rem; color: var(--text-tertiary);">${date}</div>
+                `;
+                
+                noteItem.addEventListener('click', () => loadNote(note.id));
+                notesList.appendChild(noteItem);
+            });
+        }
+
+        function loadNote(id) {
+            const note = notes.find(note => note.id === id);
+            if (note) {
+                currentNoteId = id;
+                noteTitleInput.value = note.title;
+                noteContentInput.value = note.content;
+                renderNotesList();
+            }
+        }
+
+        function saveNote() {
+            const title = noteTitleInput.value.trim();
+            const content = noteContentInput.value.trim();
+            
+            if (!title && !content) {
+                alert('笔记标题和内容不能同时为空！');
+                return;
+            }
+            
+            if (currentNoteId) {
+                // 更新现有笔记
+                const noteIndex = notes.findIndex(note => note.id === currentNoteId);
+                if (noteIndex !== -1) {
+                    notes[noteIndex].title = title;
+                    notes[noteIndex].content = content;
+                    notes[noteIndex].date = new Date().toISOString();
+                }
+            } else {
+                // 创建新笔记
+                const newNote = {
+                    id: Date.now().toString(),
+                    title,
+                    content,
+                    date: new Date().toISOString()
+                };
+                notes.unshift(newNote);
+                currentNoteId = newNote.id;
+            }
+            
+            localStorage.setItem('notes', JSON.stringify(notes));
+            renderNotesList();
+            
+            // 显示保存成功提示
+            const originalText = saveNoteBtn.innerHTML;
+            saveNoteBtn.innerHTML = '<i class="fas fa-check"></i> 已保存';
+            saveNoteBtn.style.backgroundColor = 'var(--secondary-color)';
+            
+            setTimeout(() => {
+                saveNoteBtn.innerHTML = originalText;
+                saveNoteBtn.style.backgroundColor = '';
+            }, 1500);
+        }
+
+        function deleteNote() {
+            if (!currentNoteId) {
+                alert('没有选中要删除的笔记！');
+                return;
+            }
+            
+            if (confirm('确定要删除这条笔记吗？此操作不可撤销。')) {
+                notes = notes.filter(note => note.id !== currentNoteId);
+                localStorage.setItem('notes', JSON.stringify(notes));
+                currentNoteId = null;
+                noteTitleInput.value = '';
+                noteContentInput.value = '';
+                renderNotesList();
+            }
+        }
+
+        function createNewNote() {
+            currentNoteId = null;
+            noteTitleInput.value = '';
+            noteContentInput.value = '';
+            renderNotesList();
+            noteTitleInput.focus();
+        }
+
+        // 事件监听器
+        newNoteBtn.addEventListener('click', createNewNote);
+        saveNoteBtn.addEventListener('click', saveNote);
+        deleteNoteBtn.addEventListener('click', deleteNote);
+    </script>
+</body>
+</html>
