@@ -6,9 +6,6 @@
     <title>Cygnuy的垃圾网页</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-    <meta http-equiv="Pragma" content="no-cache">
-    <meta http-equiv="Expires" content="0">
     <style>
         :root {
             --primary-color: #1a73e8;
@@ -305,7 +302,7 @@
             animation: fadeIn 0.3s ease;
         }
 
-        /* 扫雷游戏样式 - 已调整大小 */
+        /* 扫雷游戏样式 */
         .minesweeper-controls {
             display: flex;
             gap: 1rem;
@@ -361,13 +358,13 @@
         }
 
         .cell.revealed {
-            background-color: #d0e7ff; /* 更明显的背景色 */
+            background-color: #d0e7ff;
             color: #1a73e8;
             font-weight: bold;
         }
 
         .dark-mode .cell.revealed {
-            background-color: #1e3a5f; /* 暗黑模式下的明显背景色 */
+            background-color: #1e3a5f;
             color: #8ab4f8;
         }
 
@@ -963,72 +960,60 @@
     </footer>
 
     <script>
-        // 修复导航功能 - 简化版本
+        // 页面导航功能
         document.addEventListener('DOMContentLoaded', function() {
-            console.log("页面加载完成，初始化功能...");
+            // 初始化所有功能
+            initializeNavigation();
+            initializeMinesweeper();
+            initializeTictactoe();
+            initializeSnake();
+            initializeNotes();
+            initializeThemeToggle();
+        });
+
+        // 导航功能
+        function initializeNavigation() {
+            const navLinks = document.querySelectorAll('.nav-link');
+            const sections = document.querySelectorAll('.section');
             
-            // 导航切换 - 使用事件委托
-            document.addEventListener('click', function(e) {
-                // 检查是否点击了导航链接
-                if (e.target.classList.contains('nav-link') || e.target.closest('.nav-link')) {
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
                     e.preventDefault();
                     
-                    const navLink = e.target.classList.contains('nav-link') ? e.target : e.target.closest('.nav-link');
-                    const targetId = navLink.getAttribute('href').substring(1);
-                    
-                    console.log("导航点击:", targetId);
+                    // 获取目标section ID
+                    const targetId = this.getAttribute('href').substring(1);
                     
                     // 移除所有active类
-                    document.querySelectorAll('.nav-link').forEach(link => {
-                        link.classList.remove('active');
-                    });
+                    navLinks.forEach(l => l.classList.remove('active'));
+                    sections.forEach(s => s.classList.remove('active'));
                     
-                    document.querySelectorAll('.section').forEach(section => {
-                        section.classList.remove('active');
-                    });
-                    
-                    // 添加active类到当前链接
-                    navLink.classList.add('active');
-                    
-                    // 显示对应的section
-                    const targetSection = document.getElementById(targetId);
-                    if (targetSection) {
-                        targetSection.classList.add('active');
-                        console.log("成功切换到:", targetId);
-                    } else {
-                        console.error("找不到目标section:", targetId);
-                    }
-                }
-                
-                // 游戏切换
-                if (e.target.classList.contains('game-btn') || e.target.closest('.game-btn')) {
-                    const gameBtn = e.target.classList.contains('game-btn') ? e.target : e.target.closest('.game-btn');
-                    const game = gameBtn.getAttribute('data-game');
-                    
-                    console.log("游戏切换:", game);
-                    
-                    // 移除所有active类
-                    document.querySelectorAll('.game-btn').forEach(btn => {
-                        btn.classList.remove('active');
-                    });
-                    
-                    document.querySelectorAll('.game-area').forEach(area => {
-                        area.classList.remove('active');
-                    });
-                    
-                    // 添加active类到当前游戏
-                    gameBtn.classList.add('active');
-                    const targetGame = document.getElementById(game);
-                    if (targetGame) {
-                        targetGame.classList.add('active');
-                        console.log("成功切换到游戏:", game);
-                    } else {
-                        console.error("找不到目标游戏:", game);
-                    }
-                }
+                    // 添加active类到当前链接和目标section
+                    this.classList.add('active');
+                    document.getElementById(targetId).classList.add('active');
+                });
             });
             
-            // 暗黑模式切换
+            // 游戏切换功能
+            const gameBtns = document.querySelectorAll('.game-btn');
+            const gameAreas = document.querySelectorAll('.game-area');
+            
+            gameBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const game = this.getAttribute('data-game');
+                    
+                    // 移除所有active类
+                    gameBtns.forEach(b => b.classList.remove('active'));
+                    gameAreas.forEach(a => a.classList.remove('active'));
+                    
+                    // 添加active类到当前游戏
+                    this.classList.add('active');
+                    document.getElementById(game).classList.add('active');
+                });
+            });
+        }
+
+        // 暗黑模式切换
+        function initializeThemeToggle() {
             const themeToggle = document.getElementById('themeToggle');
             const themeIcon = themeToggle.querySelector('i');
             
@@ -1051,301 +1036,265 @@
                     localStorage.setItem('darkMode', 'false');
                 }
             });
-            
-            // 初始化功能
-            initializeMinesweeper();
-            initializeTictactoe();
-            initializeSnake();
-            renderNotesList();
-            
-            console.log("所有功能初始化完成");
-        });
+        }
 
         // 扫雷游戏实现
-        const minesweeperBoard = document.getElementById('minesweeperBoard');
-        const mineCountElement = document.getElementById('mineCount');
-        const gameTimerElement = document.getElementById('gameTimer');
-        const gameStatusElement = document.getElementById('gameStatus');
-        const resetMinesweeperBtn = document.getElementById('resetMinesweeper');
-        const difficultySelect = document.getElementById('difficulty');
-
-        let mineCount = 20;
-        let gameTimer = 0;
-        let timerInterval;
-        let gameBoard = [];
-        let revealedCells = 0;
-        let totalCells = 0;
-        let gameOver = false;
-        let boardSize = 10;
-
-        // 难度设置
-        const difficultySettings = {
-            easy: { size: 8, mines: 10 },
-            medium: { size: 10, mines: 20 },
-            hard: { size: 12, mines: 40 }
-        };
-
         function initializeMinesweeper() {
-            clearInterval(timerInterval);
-            gameTimer = 0;
-            gameTimerElement.textContent = gameTimer;
-            revealedCells = 0;
-            gameOver = false;
-            gameStatusElement.textContent = "游戏中";
-            
-            // 获取难度设置
-            const difficulty = difficultySelect.value;
-            boardSize = difficultySettings[difficulty].size;
-            mineCount = difficultySettings[difficulty].mines;
-            mineCountElement.textContent = mineCount;
-            
-            // 创建游戏板
-            minesweeperBoard.innerHTML = '';
-            minesweeperBoard.style.gridTemplateColumns = `repeat(${boardSize}, 1fr)`;
-            gameBoard = [];
-            totalCells = boardSize * boardSize;
-            
-            // 初始化游戏板
-            for (let i = 0; i < boardSize; i++) {
-                gameBoard[i] = [];
-                for (let j = 0; j < boardSize; j++) {
-                    gameBoard[i][j] = {
-                        isMine: false,
-                        isRevealed: false,
-                        isFlagged: false,
-                        neighborMines: 0
-                    };
-                    
-                    const cell = document.createElement('div');
-                    cell.className = 'cell';
-                    cell.dataset.row = i;
-                    cell.dataset.col = j;
-                    
-                    cell.addEventListener('click', () => revealCell(i, j));
-                    cell.addEventListener('contextmenu', (e) => {
-                        e.preventDefault();
-                        toggleFlag(i, j);
-                    });
-                    
-                    minesweeperBoard.appendChild(cell);
-                }
-            }
-            
-            // 随机放置地雷
-            placeMines();
-            
-            // 计算每个单元格周围的地雷数
-            calculateNeighborMines();
-        }
+            const minesweeperBoard = document.getElementById('minesweeperBoard');
+            const mineCountElement = document.getElementById('mineCount');
+            const gameTimerElement = document.getElementById('gameTimer');
+            const gameStatusElement = document.getElementById('gameStatus');
+            const resetMinesweeperBtn = document.getElementById('resetMinesweeper');
+            const difficultySelect = document.getElementById('difficulty');
 
-        function placeMines() {
-            let minesPlaced = 0;
-            while (minesPlaced < mineCount) {
-                const row = Math.floor(Math.random() * boardSize);
-                const col = Math.floor(Math.random() * boardSize);
+            let mineCount = 20;
+            let gameTimer = 0;
+            let timerInterval;
+            let gameBoard = [];
+            let revealedCells = 0;
+            let totalCells = 0;
+            let gameOver = false;
+            let boardSize = 10;
+
+            // 难度设置
+            const difficultySettings = {
+                easy: { size: 8, mines: 10 },
+                medium: { size: 10, mines: 20 },
+                hard: { size: 12, mines: 40 }
+            };
+
+            function initializeGame() {
+                clearInterval(timerInterval);
+                gameTimer = 0;
+                gameTimerElement.textContent = gameTimer;
+                revealedCells = 0;
+                gameOver = false;
+                gameStatusElement.textContent = "游戏中";
                 
-                if (!gameBoard[row][col].isMine) {
-                    gameBoard[row][col].isMine = true;
-                    minesPlaced++;
+                // 获取难度设置
+                const difficulty = difficultySelect.value;
+                boardSize = difficultySettings[difficulty].size;
+                mineCount = difficultySettings[difficulty].mines;
+                mineCountElement.textContent = mineCount;
+                
+                // 创建游戏板
+                minesweeperBoard.innerHTML = '';
+                minesweeperBoard.style.gridTemplateColumns = `repeat(${boardSize}, 1fr)`;
+                gameBoard = [];
+                totalCells = boardSize * boardSize;
+                
+                // 初始化游戏板
+                for (let i = 0; i < boardSize; i++) {
+                    gameBoard[i] = [];
+                    for (let j = 0; j < boardSize; j++) {
+                        gameBoard[i][j] = {
+                            isMine: false,
+                            isRevealed: false,
+                            isFlagged: false,
+                            neighborMines: 0
+                        };
+                        
+                        const cell = document.createElement('div');
+                        cell.className = 'cell';
+                        cell.dataset.row = i;
+                        cell.dataset.col = j;
+                        
+                        cell.addEventListener('click', () => revealCell(i, j));
+                        cell.addEventListener('contextmenu', (e) => {
+                            e.preventDefault();
+                            toggleFlag(i, j);
+                        });
+                        
+                        minesweeperBoard.appendChild(cell);
+                    }
+                }
+                
+                // 随机放置地雷
+                placeMines();
+                
+                // 计算每个单元格周围的地雷数
+                calculateNeighborMines();
+            }
+
+            function placeMines() {
+                let minesPlaced = 0;
+                while (minesPlaced < mineCount) {
+                    const row = Math.floor(Math.random() * boardSize);
+                    const col = Math.floor(Math.random() * boardSize);
+                    
+                    if (!gameBoard[row][col].isMine) {
+                        gameBoard[row][col].isMine = true;
+                        minesPlaced++;
+                    }
                 }
             }
-        }
 
-        function calculateNeighborMines() {
-            for (let i = 0; i < boardSize; i++) {
-                for (let j = 0; j < boardSize; j++) {
-                    if (!gameBoard[i][j].isMine) {
-                        let count = 0;
+            function calculateNeighborMines() {
+                for (let i = 0; i < boardSize; i++) {
+                    for (let j = 0; j < boardSize; j++) {
+                        if (!gameBoard[i][j].isMine) {
+                            let count = 0;
+                            for (let di = -1; di <= 1; di++) {
+                                for (let dj = -1; dj <= 1; dj++) {
+                                    const ni = i + di;
+                                    const nj = j + dj;
+                                    if (ni >= 0 && ni < boardSize && nj >= 0 && nj < boardSize && gameBoard[ni][nj].isMine) {
+                                        count++;
+                                    }
+                                }
+                            }
+                            gameBoard[i][j].neighborMines = count;
+                        }
+                    }
+                }
+            }
+
+            function revealCell(row, col) {
+                if (gameOver || gameBoard[row][col].isRevealed || gameBoard[row][col].isFlagged) {
+                    return;
+                }
+                
+                // 开始计时
+                if (revealedCells === 0) {
+                    startTimer();
+                }
+                
+                gameBoard[row][col].isRevealed = true;
+                revealedCells++;
+                
+                const cell = document.querySelector(`.cell[data-row="${row}"][data-col="${col}"]`);
+                cell.classList.add('revealed');
+                
+                if (gameBoard[row][col].isMine) {
+                    // 游戏结束
+                    cell.classList.add('mine');
+                    cell.textContent = '💣';
+                    endGame(false);
+                } else {
+                    if (gameBoard[row][col].neighborMines > 0) {
+                        cell.textContent = gameBoard[row][col].neighborMines;
+                        // 根据周围地雷数设置不同颜色
+                        const colors = ['', 'blue', 'green', 'red', 'purple', 'maroon', 'turquoise', 'black', 'gray'];
+                        cell.style.color = colors[gameBoard[row][col].neighborMines];
+                    } else {
+                        // 如果周围没有地雷，递归揭示相邻单元格
                         for (let di = -1; di <= 1; di++) {
                             for (let dj = -1; dj <= 1; dj++) {
-                                const ni = i + di;
-                                const nj = j + dj;
-                                if (ni >= 0 && ni < boardSize && nj >= 0 && nj < boardSize && gameBoard[ni][nj].isMine) {
-                                    count++;
+                                const ni = row + di;
+                                const nj = col + dj;
+                                if (ni >= 0 && ni < boardSize && nj >= 0 && nj < boardSize && !gameBoard[ni][nj].isRevealed) {
+                                    revealCell(ni, nj);
                                 }
                             }
                         }
-                        gameBoard[i][j].neighborMines = count;
+                    }
+                    
+                    // 检查是否获胜
+                    if (revealedCells === totalCells - mineCount) {
+                        endGame(true);
                     }
                 }
             }
-        }
 
-        function revealCell(row, col) {
-            if (gameOver || gameBoard[row][col].isRevealed || gameBoard[row][col].isFlagged) {
-                return;
-            }
-            
-            // 开始计时
-            if (revealedCells === 0) {
-                startTimer();
-            }
-            
-            gameBoard[row][col].isRevealed = true;
-            revealedCells++;
-            
-            const cell = document.querySelector(`.cell[data-row="${row}"][data-col="${col}"]`);
-            cell.classList.add('revealed');
-            
-            if (gameBoard[row][col].isMine) {
-                // 游戏结束
-                cell.classList.add('mine');
-                cell.textContent = '💣';
-                endGame(false);
-            } else {
-                if (gameBoard[row][col].neighborMines > 0) {
-                    cell.textContent = gameBoard[row][col].neighborMines;
-                    // 根据周围地雷数设置不同颜色
-                    const colors = ['', 'blue', 'green', 'red', 'purple', 'maroon', 'turquoise', 'black', 'gray'];
-                    cell.style.color = colors[gameBoard[row][col].neighborMines];
+            function toggleFlag(row, col) {
+                if (gameOver || gameBoard[row][col].isRevealed) {
+                    return;
+                }
+                
+                const cell = document.querySelector(`.cell[data-row="${row}"][data-col="${col}"]`);
+                
+                if (gameBoard[row][col].isFlagged) {
+                    gameBoard[row][col].isFlagged = false;
+                    cell.classList.remove('flagged');
+                    mineCount++;
                 } else {
-                    // 如果周围没有地雷，递归揭示相邻单元格
-                    for (let di = -1; di <= 1; di++) {
-                        for (let dj = -1; dj <= 1; dj++) {
-                            const ni = row + di;
-                            const nj = col + dj;
-                            if (ni >= 0 && ni < boardSize && nj >= 0 && nj < boardSize && !gameBoard[ni][nj].isRevealed) {
-                                revealCell(ni, nj);
+                    gameBoard[row][col].isFlagged = true;
+                    cell.classList.add('flagged');
+                    mineCount--;
+                }
+                
+                mineCountElement.textContent = mineCount;
+            }
+
+            function startTimer() {
+                timerInterval = setInterval(() => {
+                    gameTimer++;
+                    gameTimerElement.textContent = gameTimer;
+                }, 1000);
+            }
+
+            function endGame(isWin) {
+                gameOver = true;
+                clearInterval(timerInterval);
+                
+                if (isWin) {
+                    gameStatusElement.textContent = "获胜！";
+                    setTimeout(() => alert('恭喜！你赢了！'), 100);
+                } else {
+                    gameStatusElement.textContent = "游戏结束";
+                    setTimeout(() => alert('游戏结束！你踩到了地雷。'), 100);
+                    // 显示所有地雷
+                    for (let i = 0; i < boardSize; i++) {
+                        for (let j = 0; j < boardSize; j++) {
+                            if (gameBoard[i][j].isMine && !gameBoard[i][j].isFlagged) {
+                                const cell = document.querySelector(`.cell[data-row="${i}"][data-col="${j}"]`);
+                                cell.classList.add('mine');
+                                cell.textContent = '💣';
                             }
                         }
                     }
                 }
-                
-                // 检查是否获胜
-                if (revealedCells === totalCells - mineCount) {
-                    endGame(true);
-                }
             }
-        }
 
-        function toggleFlag(row, col) {
-            if (gameOver || gameBoard[row][col].isRevealed) {
-                return;
-            }
+            resetMinesweeperBtn.addEventListener('click', initializeGame);
+            difficultySelect.addEventListener('change', initializeGame);
             
-            const cell = document.querySelector(`.cell[data-row="${row}"][data-col="${col}"]`);
-            
-            if (gameBoard[row][col].isFlagged) {
-                gameBoard[row][col].isFlagged = false;
-                cell.classList.remove('flagged');
-                mineCount++;
-            } else {
-                gameBoard[row][col].isFlagged = true;
-                cell.classList.add('flagged');
-                mineCount--;
-            }
-            
-            mineCountElement.textContent = mineCount;
+            // 初始化游戏
+            initializeGame();
         }
-
-        function startTimer() {
-            timerInterval = setInterval(() => {
-                gameTimer++;
-                gameTimerElement.textContent = gameTimer;
-            }, 1000);
-        }
-
-        function endGame(isWin) {
-            gameOver = true;
-            clearInterval(timerInterval);
-            
-            if (isWin) {
-                gameStatusElement.textContent = "获胜！";
-                setTimeout(() => alert('恭喜！你赢了！'), 100);
-            } else {
-                gameStatusElement.textContent = "游戏结束";
-                setTimeout(() => alert('游戏结束！你踩到了地雷。'), 100);
-                // 显示所有地雷
-                for (let i = 0; i < boardSize; i++) {
-                    for (let j = 0; j < boardSize; j++) {
-                        if (gameBoard[i][j].isMine && !gameBoard[i][j].isFlagged) {
-                            const cell = document.querySelector(`.cell[data-row="${i}"][data-col="${j}"]`);
-                            cell.classList.add('mine');
-                            cell.textContent = '💣';
-                        }
-                    }
-                }
-            }
-        }
-
-        resetMinesweeperBtn.addEventListener('click', initializeMinesweeper);
-        difficultySelect.addEventListener('change', initializeMinesweeper);
 
         // 井字棋游戏实现
-        const tictactoeBoard = document.getElementById('tictactoeBoard');
-        const currentPlayerElement = document.getElementById('currentPlayer');
-        const resetTictactoeBtn = document.getElementById('resetTictactoe');
-        const gameModeSelect = document.getElementById('gameMode');
-
-        let currentPlayer = 'X';
-        let boardState = ['', '', '', '', '', '', '', '', ''];
-        let gameActive = true;
-
         function initializeTictactoe() {
-            currentPlayer = 'X';
-            boardState = ['', '', '', '', '', '', '', '', ''];
-            gameActive = true;
-            currentPlayerElement.textContent = currentPlayer;
-            
-            tictactoeBoard.innerHTML = '';
-            
-            for (let i = 0; i < 9; i++) {
-                const tile = document.createElement('div');
-                tile.className = 'tile';
-                tile.dataset.index = i;
-                tile.addEventListener('click', () => handleTileClick(i));
-                tictactoeBoard.appendChild(tile);
-            }
-        }
+            const tictactoeBoard = document.getElementById('tictactoeBoard');
+            const currentPlayerElement = document.getElementById('currentPlayer');
+            const resetTictactoeBtn = document.getElementById('resetTictactoe');
+            const gameModeSelect = document.getElementById('gameMode');
 
-        function handleTileClick(index) {
-            if (!gameActive || boardState[index] !== '') {
-                return;
-            }
-            
-            // 玩家移动
-            boardState[index] = currentPlayer;
-            const tile = document.querySelector(`.tile[data-index="${index}"]`);
-            tile.textContent = currentPlayer;
-            tile.classList.add(currentPlayer.toLowerCase());
-            
-            if (checkWinner()) {
-                gameActive = false;
-                setTimeout(() => alert(`玩家 ${currentPlayer} 获胜！`), 100);
-                return;
-            }
-            
-            if (boardState.every(cell => cell !== '')) {
-                gameActive = false;
-                setTimeout(() => alert('平局！'), 100);
-                return;
-            }
-            
-            // 切换玩家
-            currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
-            currentPlayerElement.textContent = currentPlayer;
-            
-            // 如果是人机对战且轮到AI
-            if (gameModeSelect.value === 'ai' && currentPlayer === 'O' && gameActive) {
-                setTimeout(makeAIMove, 500);
-            }
-        }
+            let currentPlayer = 'X';
+            let boardState = ['', '', '', '', '', '', '', '', ''];
+            let gameActive = true;
 
-        function makeAIMove() {
-            if (!gameActive) return;
-            
-            // 简单的AI策略：先尝试获胜，再阻止玩家获胜，否则随机移动
-            let move = findWinningMove('O') || findWinningMove('X') || findRandomMove();
-            
-            if (move !== -1) {
-                boardState[move] = 'O';
-                const tile = document.querySelector(`.tile[data-index="${move}"]`);
-                tile.textContent = 'O';
-                tile.classList.add('o');
+            function initializeGame() {
+                currentPlayer = 'X';
+                boardState = ['', '', '', '', '', '', '', '', ''];
+                gameActive = true;
+                currentPlayerElement.textContent = currentPlayer;
+                
+                tictactoeBoard.innerHTML = '';
+                
+                for (let i = 0; i < 9; i++) {
+                    const tile = document.createElement('div');
+                    tile.className = 'tile';
+                    tile.dataset.index = i;
+                    tile.addEventListener('click', () => handleTileClick(i));
+                    tictactoeBoard.appendChild(tile);
+                }
+            }
+
+            function handleTileClick(index) {
+                if (!gameActive || boardState[index] !== '') {
+                    return;
+                }
+                
+                // 玩家移动
+                boardState[index] = currentPlayer;
+                const tile = document.querySelector(`.tile[data-index="${index}"]`);
+                tile.textContent = currentPlayer;
+                tile.classList.add(currentPlayer.toLowerCase());
                 
                 if (checkWinner()) {
                     gameActive = false;
-                    setTimeout(() => alert('AI获胜！'), 100);
+                    setTimeout(() => alert(`玩家 ${currentPlayer} 获胜！`), 100);
                     return;
                 }
                 
@@ -1355,374 +1304,422 @@
                     return;
                 }
                 
-                currentPlayer = 'X';
+                // 切换玩家
+                currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
                 currentPlayerElement.textContent = currentPlayer;
-            }
-        }
-
-        function findWinningMove(player) {
-            const winPatterns = [
-                [0, 1, 2], [3, 4, 5], [6, 7, 8], // 行
-                [0, 3, 6], [1, 4, 7], [2, 5, 8], // 列
-                [0, 4, 8], [2, 4, 6] // 对角线
-            ];
-            
-            for (const pattern of winPatterns) {
-                const [a, b, c] = pattern;
-                const cells = [boardState[a], boardState[b], boardState[c]];
                 
-                // 如果这一行有两个是当前玩家的棋子，且有一个空位，则返回空位
-                if (cells.filter(cell => cell === player).length === 2) {
-                    const emptyIndex = pattern.findIndex(i => boardState[i] === '');
-                    if (emptyIndex !== -1) {
-                        return pattern[emptyIndex];
-                    }
+                // 如果是人机对战且轮到AI
+                if (gameModeSelect.value === 'ai' && currentPlayer === 'O' && gameActive) {
+                    setTimeout(makeAIMove, 500);
                 }
             }
-            
-            return -1;
-        }
 
-        function findRandomMove() {
-            const emptyCells = boardState
-                .map((cell, index) => cell === '' ? index : -1)
-                .filter(index => index !== -1);
-            
-            if (emptyCells.length === 0) return -1;
-            
-            const randomIndex = Math.floor(Math.random() * emptyCells.length);
-            return emptyCells[randomIndex];
-        }
+            function makeAIMove() {
+                if (!gameActive) return;
+                
+                // 简单的AI策略：先尝试获胜，再阻止玩家获胜，否则随机移动
+                let move = findWinningMove('O') || findWinningMove('X') || findRandomMove();
+                
+                if (move !== -1) {
+                    boardState[move] = 'O';
+                    const tile = document.querySelector(`.tile[data-index="${move}"]`);
+                    tile.textContent = 'O';
+                    tile.classList.add('o');
+                    
+                    if (checkWinner()) {
+                        gameActive = false;
+                        setTimeout(() => alert('AI获胜！'), 100);
+                        return;
+                    }
+                    
+                    if (boardState.every(cell => cell !== '')) {
+                        gameActive = false;
+                        setTimeout(() => alert('平局！'), 100);
+                        return;
+                    }
+                    
+                    currentPlayer = 'X';
+                    currentPlayerElement.textContent = currentPlayer;
+                }
+            }
 
-        function checkWinner() {
-            const winPatterns = [
-                [0, 1, 2], [3, 4, 5], [6, 7, 8], // 行
-                [0, 3, 6], [1, 4, 7], [2, 5, 8], // 列
-                [0, 4, 8], [2, 4, 6] // 对角线
-            ];
-            
-            return winPatterns.some(pattern => {
-                const [a, b, c] = pattern;
-                return boardState[a] !== '' && 
-                       boardState[a] === boardState[b] && 
-                       boardState[a] === boardState[c];
-            });
-        }
+            function findWinningMove(player) {
+                const winPatterns = [
+                    [0, 1, 2], [3, 4, 5], [6, 7, 8], // 行
+                    [0, 3, 6], [1, 4, 7], [2, 5, 8], // 列
+                    [0, 4, 8], [2, 4, 6] // 对角线
+                ];
+                
+                for (const pattern of winPatterns) {
+                    const [a, b, c] = pattern;
+                    const cells = [boardState[a], boardState[b], boardState[c]];
+                    
+                    // 如果这一行有两个是当前玩家的棋子，且有一个空位，则返回空位
+                    if (cells.filter(cell => cell === player).length === 2) {
+                        const emptyIndex = pattern.findIndex(i => boardState[i] === '');
+                        if (emptyIndex !== -1) {
+                            return pattern[emptyIndex];
+                        }
+                    }
+                }
+                
+                return -1;
+            }
 
-        resetTictactoeBtn.addEventListener('click', initializeTictactoe);
-        gameModeSelect.addEventListener('change', initializeTictactoe);
+            function findRandomMove() {
+                const emptyCells = boardState
+                    .map((cell, index) => cell === '' ? index : -1)
+                    .filter(index => index !== -1);
+                
+                if (emptyCells.length === 0) return -1;
+                
+                const randomIndex = Math.floor(Math.random() * emptyCells.length);
+                return emptyCells[randomIndex];
+            }
+
+            function checkWinner() {
+                const winPatterns = [
+                    [0, 1, 2], [3, 4, 5], [6, 7, 8], // 行
+                    [0, 3, 6], [1, 4, 7], [2, 5, 8], // 列
+                    [0, 4, 8], [2, 4, 6] // 对角线
+                ];
+                
+                return winPatterns.some(pattern => {
+                    const [a, b, c] = pattern;
+                    return boardState[a] !== '' && 
+                           boardState[a] === boardState[b] && 
+                           boardState[a] === boardState[c];
+                });
+            }
+
+            resetTictactoeBtn.addEventListener('click', initializeGame);
+            gameModeSelect.addEventListener('change', initializeGame);
+            
+            // 初始化游戏
+            initializeGame();
+        }
 
         // 贪吃蛇游戏实现
-        const snakeBoard = document.getElementById('snakeBoard');
-        const snakeScoreElement = document.getElementById('snakeScore');
-        const snakeStatusElement = document.getElementById('snakeStatus');
-        const startSnakeBtn = document.getElementById('startSnake');
-        const resetSnakeBtn = document.getElementById('resetSnake');
-        const pauseSnakeBtn = document.getElementById('pauseSnake');
-
-        const snakeBoardSize = 15;
-        let snake = [];
-        let food = {};
-        let direction = 'right';
-        let nextDirection = 'right';
-        let gameInterval;
-        let score = 0;
-        let isPaused = false;
-        let isGameOver = false;
-
         function initializeSnake() {
-            clearInterval(gameInterval);
-            snake = [{x: 5, y: 7}];
-            direction = 'right';
-            nextDirection = 'right';
-            score = 0;
-            isPaused = false;
-            isGameOver = false;
-            snakeScoreElement.textContent = score;
-            snakeStatusElement.textContent = "准备开始";
-            pauseSnakeBtn.innerHTML = '<i class="fas fa-pause"></i> 暂停';
-            
-            // 创建游戏板
-            snakeBoard.innerHTML = '';
-            snakeBoard.style.gridTemplateColumns = `repeat(${snakeBoardSize}, 1fr)`;
-            
-            for (let i = 0; i < snakeBoardSize; i++) {
-                for (let j = 0; j < snakeBoardSize; j++) {
-                    const cell = document.createElement('div');
-                    cell.className = 'snake-cell';
-                    cell.dataset.x = j;
-                    cell.dataset.y = i;
-                    snakeBoard.appendChild(cell);
-                }
-            }
-            
-            // 放置食物
-            placeFood();
-            renderSnake();
-        }
+            const snakeBoard = document.getElementById('snakeBoard');
+            const snakeScoreElement = document.getElementById('snakeScore');
+            const snakeStatusElement = document.getElementById('snakeStatus');
+            const startSnakeBtn = document.getElementById('startSnake');
+            const resetSnakeBtn = document.getElementById('resetSnake');
+            const pauseSnakeBtn = document.getElementById('pauseSnake');
 
-        function placeFood() {
-            let newFood;
-            do {
-                newFood = {
-                    x: Math.floor(Math.random() * snakeBoardSize),
-                    y: Math.floor(Math.random() * snakeBoardSize)
-                };
-            } while (snake.some(segment => segment.x === newFood.x && segment.y === newFood.y));
-            
-            food = newFood;
-        }
+            const snakeBoardSize = 15;
+            let snake = [];
+            let food = {};
+            let direction = 'right';
+            let nextDirection = 'right';
+            let gameInterval;
+            let score = 0;
+            let isPaused = false;
+            let isGameOver = false;
 
-        function renderSnake() {
-            // 清除所有单元格
-            document.querySelectorAll('.snake-cell').forEach(cell => {
-                cell.classList.remove('snake', 'head', 'food');
-            });
-            
-            // 渲染蛇身
-            snake.forEach((segment, index) => {
-                const cell = document.querySelector(`.snake-cell[data-x="${segment.x}"][data-y="${segment.y}"]`);
-                if (cell) {
-                    cell.classList.add('snake');
-                    if (index === 0) {
-                        cell.classList.add('head');
+            function initializeGame() {
+                clearInterval(gameInterval);
+                snake = [{x: 5, y: 7}];
+                direction = 'right';
+                nextDirection = 'right';
+                score = 0;
+                isPaused = false;
+                isGameOver = false;
+                snakeScoreElement.textContent = score;
+                snakeStatusElement.textContent = "准备开始";
+                pauseSnakeBtn.innerHTML = '<i class="fas fa-pause"></i> 暂停';
+                
+                // 创建游戏板
+                snakeBoard.innerHTML = '';
+                snakeBoard.style.gridTemplateColumns = `repeat(${snakeBoardSize}, 1fr)`;
+                
+                for (let i = 0; i < snakeBoardSize; i++) {
+                    for (let j = 0; j < snakeBoardSize; j++) {
+                        const cell = document.createElement('div');
+                        cell.className = 'snake-cell';
+                        cell.dataset.x = j;
+                        cell.dataset.y = i;
+                        snakeBoard.appendChild(cell);
                     }
                 }
-            });
-            
-            // 渲染食物
-            const foodCell = document.querySelector(`.snake-cell[data-x="${food.x}"][data-y="${food.y}"]`);
-            if (foodCell) {
-                foodCell.classList.add('food');
-            }
-        }
-
-        function startGame() {
-            if (isGameOver) {
-                initializeSnake();
-            }
-            
-            isPaused = false;
-            snakeStatusElement.textContent = "游戏中";
-            gameInterval = setInterval(moveSnake, 200);
-        }
-
-        function moveSnake() {
-            if (isPaused || isGameOver) return;
-            
-            direction = nextDirection;
-            
-            // 计算新的头部位置
-            const head = {...snake[0]};
-            switch (direction) {
-                case 'up': head.y--; break;
-                case 'down': head.y++; break;
-                case 'left': head.x--; break;
-                case 'right': head.x++; break;
-            }
-            
-            // 检查碰撞
-            if (
-                head.x < 0 || head.x >= snakeBoardSize ||
-                head.y < 0 || head.y >= snakeBoardSize ||
-                snake.some(segment => segment.x === head.x && segment.y === head.y)
-            ) {
-                gameOver();
-                return;
-            }
-            
-            // 移动蛇
-            snake.unshift(head);
-            
-            // 检查是否吃到食物
-            if (head.x === food.x && head.y === food.y) {
-                score++;
-                snakeScoreElement.textContent = score;
+                
+                // 放置食物
                 placeFood();
-            } else {
-                snake.pop();
+                renderSnake();
             }
-            
-            renderSnake();
-        }
 
-        function gameOver() {
-            clearInterval(gameInterval);
-            isGameOver = true;
-            snakeStatusElement.textContent = "游戏结束！最终得分: " + score;
-            setTimeout(() => alert(`游戏结束！你的得分是: ${score}`), 100);
-        }
+            function placeFood() {
+                let newFood;
+                do {
+                    newFood = {
+                        x: Math.floor(Math.random() * snakeBoardSize),
+                        y: Math.floor(Math.random() * snakeBoardSize)
+                    };
+                } while (snake.some(segment => segment.x === newFood.x && segment.y === newFood.y));
+                
+                food = newFood;
+            }
 
-        function pauseGame() {
-            if (isGameOver) return;
-            
-            if (isPaused) {
+            function renderSnake() {
+                // 清除所有单元格
+                document.querySelectorAll('.snake-cell').forEach(cell => {
+                    cell.classList.remove('snake', 'head', 'food');
+                });
+                
+                // 渲染蛇身
+                snake.forEach((segment, index) => {
+                    const cell = document.querySelector(`.snake-cell[data-x="${segment.x}"][data-y="${segment.y}"]`);
+                    if (cell) {
+                        cell.classList.add('snake');
+                        if (index === 0) {
+                            cell.classList.add('head');
+                        }
+                    }
+                });
+                
+                // 渲染食物
+                const foodCell = document.querySelector(`.snake-cell[data-x="${food.x}"][data-y="${food.y}"]`);
+                if (foodCell) {
+                    foodCell.classList.add('food');
+                }
+            }
+
+            function startGame() {
+                if (isGameOver) {
+                    initializeGame();
+                }
+                
                 isPaused = false;
                 snakeStatusElement.textContent = "游戏中";
                 gameInterval = setInterval(moveSnake, 200);
-                pauseSnakeBtn.innerHTML = '<i class="fas fa-pause"></i> 暂停';
-            } else {
-                isPaused = true;
-                snakeStatusElement.textContent = "已暂停";
+            }
+
+            function moveSnake() {
+                if (isPaused || isGameOver) return;
+                
+                direction = nextDirection;
+                
+                // 计算新的头部位置
+                const head = {...snake[0]};
+                switch (direction) {
+                    case 'up': head.y--; break;
+                    case 'down': head.y++; break;
+                    case 'left': head.x--; break;
+                    case 'right': head.x++; break;
+                }
+                
+                // 检查碰撞
+                if (
+                    head.x < 0 || head.x >= snakeBoardSize ||
+                    head.y < 0 || head.y >= snakeBoardSize ||
+                    snake.some(segment => segment.x === head.x && segment.y === head.y)
+                ) {
+                    gameOver();
+                    return;
+                }
+                
+                // 移动蛇
+                snake.unshift(head);
+                
+                // 检查是否吃到食物
+                if (head.x === food.x && head.y === food.y) {
+                    score++;
+                    snakeScoreElement.textContent = score;
+                    placeFood();
+                } else {
+                    snake.pop();
+                }
+                
+                renderSnake();
+            }
+
+            function gameOver() {
                 clearInterval(gameInterval);
-                pauseSnakeBtn.innerHTML = '<i class="fas fa-play"></i> 继续';
+                isGameOver = true;
+                snakeStatusElement.textContent = "游戏结束！最终得分: " + score;
+                setTimeout(() => alert(`游戏结束！你的得分是: ${score}`), 100);
             }
-        }
 
-        // 键盘控制
-        document.addEventListener('keydown', (e) => {
-            if (isGameOver || isPaused) return;
+            function pauseGame() {
+                if (isGameOver) return;
+                
+                if (isPaused) {
+                    isPaused = false;
+                    snakeStatusElement.textContent = "游戏中";
+                    gameInterval = setInterval(moveSnake, 200);
+                    pauseSnakeBtn.innerHTML = '<i class="fas fa-pause"></i> 暂停';
+                } else {
+                    isPaused = true;
+                    snakeStatusElement.textContent = "已暂停";
+                    clearInterval(gameInterval);
+                    pauseSnakeBtn.innerHTML = '<i class="fas fa-play"></i> 继续';
+                }
+            }
+
+            // 键盘控制
+            document.addEventListener('keydown', (e) => {
+                if (isGameOver || isPaused) return;
+                
+                switch (e.key) {
+                    case 'ArrowUp':
+                    case 'w':
+                    case 'W':
+                        if (direction !== 'down') nextDirection = 'up';
+                        break;
+                    case 'ArrowDown':
+                    case 's':
+                    case 'S':
+                        if (direction !== 'up') nextDirection = 'down';
+                        break;
+                    case 'ArrowLeft':
+                    case 'a':
+                    case 'A':
+                        if (direction !== 'right') nextDirection = 'left';
+                        break;
+                    case 'ArrowRight':
+                    case 'd':
+                    case 'D':
+                        if (direction !== 'left') nextDirection = 'right';
+                        break;
+                }
+            });
+
+            startSnakeBtn.addEventListener('click', startGame);
+            resetSnakeBtn.addEventListener('click', initializeGame);
+            pauseSnakeBtn.addEventListener('click', pauseGame);
             
-            switch (e.key) {
-                case 'ArrowUp':
-                case 'w':
-                case 'W':
-                    if (direction !== 'down') nextDirection = 'up';
-                    break;
-                case 'ArrowDown':
-                case 's':
-                case 'S':
-                    if (direction !== 'up') nextDirection = 'down';
-                    break;
-                case 'ArrowLeft':
-                case 'a':
-                case 'A':
-                    if (direction !== 'right') nextDirection = 'left';
-                    break;
-                case 'ArrowRight':
-                case 'd':
-                case 'D':
-                    if (direction !== 'left') nextDirection = 'right';
-                    break;
-            }
-        });
-
-        startSnakeBtn.addEventListener('click', startGame);
-        resetSnakeBtn.addEventListener('click', initializeSnake);
-        pauseSnakeBtn.addEventListener('click', pauseGame);
+            // 初始化游戏
+            initializeGame();
+        }
 
         // 笔记功能实现
-        const newNoteBtn = document.getElementById('newNote');
-        const saveNoteBtn = document.getElementById('saveNote');
-        const deleteNoteBtn = document.getElementById('deleteNote');
-        const noteTitleInput = document.getElementById('noteTitle');
-        const noteContentInput = document.getElementById('noteContent');
-        const notesList = document.getElementById('notesList');
+        function initializeNotes() {
+            const newNoteBtn = document.getElementById('newNote');
+            const saveNoteBtn = document.getElementById('saveNote');
+            const deleteNoteBtn = document.getElementById('deleteNote');
+            const noteTitleInput = document.getElementById('noteTitle');
+            const noteContentInput = document.getElementById('noteContent');
+            const notesList = document.getElementById('notesList');
 
-        let notes = JSON.parse(localStorage.getItem('notes')) || [];
-        let currentNoteId = null;
+            let notes = JSON.parse(localStorage.getItem('notes')) || [];
+            let currentNoteId = null;
 
-        function renderNotesList() {
-            notesList.innerHTML = '';
-            
-            if (notes.length === 0) {
-                notesList.innerHTML = '<div style="text-align: center; padding: 2rem; color: var(--text-secondary);"><i class="fas fa-sticky-note" style="font-size: 2rem; margin-bottom: 1rem; opacity: 0.5;"></i><p>暂无垃圾笔记</p></div>';
-                return;
-            }
-            
-            notes.forEach(note => {
-                const noteItem = document.createElement('div');
-                noteItem.className = 'note-item';
-                if (currentNoteId === note.id) {
-                    noteItem.classList.add('active');
+            function renderNotesList() {
+                notesList.innerHTML = '';
+                
+                if (notes.length === 0) {
+                    notesList.innerHTML = '<div style="text-align: center; padding: 2rem; color: var(--text-secondary);"><i class="fas fa-sticky-note" style="font-size: 2rem; margin-bottom: 1rem; opacity: 0.5;"></i><p>暂无垃圾笔记</p></div>';
+                    return;
                 }
                 
-                const title = note.title || '无标题垃圾笔记';
-                const date = new Date(note.date).toLocaleDateString();
-                const preview = note.content.substring(0, 30) + (note.content.length > 30 ? '...' : '');
-                
-                noteItem.innerHTML = `
-                    <div style="font-weight: 600; margin-bottom: 0.5rem;">${title}</div>
-                    <div style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.25rem;">${preview}</div>
-                    <div style="font-size: 0.75rem; color: var(--text-tertiary);">${date}</div>
-                `;
-                
-                noteItem.addEventListener('click', () => loadNote(note.id));
-                notesList.appendChild(noteItem);
-            });
-        }
-
-        function loadNote(id) {
-            const note = notes.find(note => note.id === id);
-            if (note) {
-                currentNoteId = id;
-                noteTitleInput.value = note.title;
-                noteContentInput.value = note.content;
-                renderNotesList();
+                notes.forEach(note => {
+                    const noteItem = document.createElement('div');
+                    noteItem.className = 'note-item';
+                    if (currentNoteId === note.id) {
+                        noteItem.classList.add('active');
+                    }
+                    
+                    const title = note.title || '无标题垃圾笔记';
+                    const date = new Date(note.date).toLocaleDateString();
+                    const preview = note.content.substring(0, 30) + (note.content.length > 30 ? '...' : '');
+                    
+                    noteItem.innerHTML = `
+                        <div style="font-weight: 600; margin-bottom: 0.5rem;">${title}</div>
+                        <div style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.25rem;">${preview}</div>
+                        <div style="font-size: 0.75rem; color: var(--text-tertiary);">${date}</div>
+                    `;
+                    
+                    noteItem.addEventListener('click', () => loadNote(note.id));
+                    notesList.appendChild(noteItem);
+                });
             }
-        }
 
-        function saveNote() {
-            const title = noteTitleInput.value.trim();
-            const content = noteContentInput.value.trim();
-            
-            if (!title && !content) {
-                alert('笔记标题和内容不能同时为空！');
-                return;
-            }
-            
-            if (currentNoteId) {
-                // 更新现有笔记
-                const noteIndex = notes.findIndex(note => note.id === currentNoteId);
-                if (noteIndex !== -1) {
-                    notes[noteIndex].title = title;
-                    notes[noteIndex].content = content;
-                    notes[noteIndex].date = new Date().toISOString();
+            function loadNote(id) {
+                const note = notes.find(note => note.id === id);
+                if (note) {
+                    currentNoteId = id;
+                    noteTitleInput.value = note.title;
+                    noteContentInput.value = note.content;
+                    renderNotesList();
                 }
-            } else {
-                // 创建新笔记
-                const newNote = {
-                    id: Date.now().toString(),
-                    title,
-                    content,
-                    date: new Date().toISOString()
-                };
-                notes.unshift(newNote);
-                currentNoteId = newNote.id;
             }
-            
-            localStorage.setItem('notes', JSON.stringify(notes));
-            renderNotesList();
-            
-            // 显示保存成功提示
-            const originalText = saveNoteBtn.innerHTML;
-            saveNoteBtn.innerHTML = '<i class="fas fa-check"></i> 已保存';
-            saveNoteBtn.style.backgroundColor = 'var(--secondary-color)';
-            
-            setTimeout(() => {
-                saveNoteBtn.innerHTML = originalText;
-                saveNoteBtn.style.backgroundColor = '';
-            }, 1500);
-        }
 
-        function deleteNote() {
-            if (!currentNoteId) {
-                alert('没有选中要删除的笔记！');
-                return;
-            }
-            
-            if (confirm('确定要删除这条垃圾笔记吗？此操作不可撤销。')) {
-                notes = notes.filter(note => note.id !== currentNoteId);
+            function saveNote() {
+                const title = noteTitleInput.value.trim();
+                const content = noteContentInput.value.trim();
+                
+                if (!title && !content) {
+                    alert('笔记标题和内容不能同时为空！');
+                    return;
+                }
+                
+                if (currentNoteId) {
+                    // 更新现有笔记
+                    const noteIndex = notes.findIndex(note => note.id === currentNoteId);
+                    if (noteIndex !== -1) {
+                        notes[noteIndex].title = title;
+                        notes[noteIndex].content = content;
+                        notes[noteIndex].date = new Date().toISOString();
+                    }
+                } else {
+                    // 创建新笔记
+                    const newNote = {
+                        id: Date.now().toString(),
+                        title,
+                        content,
+                        date: new Date().toISOString()
+                    };
+                    notes.unshift(newNote);
+                    currentNoteId = newNote.id;
+                }
+                
                 localStorage.setItem('notes', JSON.stringify(notes));
+                renderNotesList();
+                
+                // 显示保存成功提示
+                const originalText = saveNoteBtn.innerHTML;
+                saveNoteBtn.innerHTML = '<i class="fas fa-check"></i> 已保存';
+                saveNoteBtn.style.backgroundColor = 'var(--secondary-color)';
+                
+                setTimeout(() => {
+                    saveNoteBtn.innerHTML = originalText;
+                    saveNoteBtn.style.backgroundColor = '';
+                }, 1500);
+            }
+
+            function deleteNote() {
+                if (!currentNoteId) {
+                    alert('没有选中要删除的笔记！');
+                    return;
+                }
+                
+                if (confirm('确定要删除这条垃圾笔记吗？此操作不可撤销。')) {
+                    notes = notes.filter(note => note.id !== currentNoteId);
+                    localStorage.setItem('notes', JSON.stringify(notes));
+                    currentNoteId = null;
+                    noteTitleInput.value = '';
+                    noteContentInput.value = '';
+                    renderNotesList();
+                }
+            }
+
+            function createNewNote() {
                 currentNoteId = null;
                 noteTitleInput.value = '';
                 noteContentInput.value = '';
                 renderNotesList();
+                noteTitleInput.focus();
             }
-        }
 
-        function createNewNote() {
-            currentNoteId = null;
-            noteTitleInput.value = '';
-            noteContentInput.value = '';
+            // 事件监听器
+            newNoteBtn.addEventListener('click', createNewNote);
+            saveNoteBtn.addEventListener('click', saveNote);
+            deleteNoteBtn.addEventListener('click', deleteNote);
+            
+            // 初始化笔记列表
             renderNotesList();
-            noteTitleInput.focus();
         }
-
-        // 事件监听器
-        newNoteBtn.addEventListener('click', createNewNote);
-        saveNoteBtn.addEventListener('click', saveNote);
-        deleteNoteBtn.addEventListener('click', deleteNote);
     </script>
 </body>
 </html>
