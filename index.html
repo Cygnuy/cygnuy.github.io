@@ -914,7 +914,7 @@
                             <i class="fab fa-bilibili"></i>
                         </div>
                         <h3>Bilibili</h3>
-                        <p>噼里啪啦还不好看？</p>
+                        <p>中国领先的年轻人文化社区</p>
                     </a>
                     <a href="https://music.163.com" class="link-card" target="_blank">
                         <div class="link-icon netease">
@@ -958,50 +958,74 @@
 
     <footer>
         <div class="container">
-            <p>© 2025 Cygnuy的垃圾网页 | 烂但能用 · 丑但能看 </p>
+            <p>© 2023 Cygnuy的垃圾网页 | 烂但能用 · 丑但能看 · 垃圾但免费</p>
         </div>
     </footer>
 
     <script>
-        // 修复导航功能
+        // 修复导航功能 - 简化版本
         document.addEventListener('DOMContentLoaded', function() {
-            // 导航切换
-            const navLinks = document.querySelectorAll('.nav-link');
-            const sections = document.querySelectorAll('.section');
+            console.log("页面加载完成，初始化功能...");
             
-            navLinks.forEach(link => {
-                link.addEventListener('click', function(e) {
+            // 导航切换 - 使用事件委托
+            document.addEventListener('click', function(e) {
+                // 检查是否点击了导航链接
+                if (e.target.classList.contains('nav-link') || e.target.closest('.nav-link')) {
                     e.preventDefault();
                     
+                    const navLink = e.target.classList.contains('nav-link') ? e.target : e.target.closest('.nav-link');
+                    const targetId = navLink.getAttribute('href').substring(1);
+                    
+                    console.log("导航点击:", targetId);
+                    
                     // 移除所有active类
-                    navLinks.forEach(l => l.classList.remove('active'));
-                    sections.forEach(s => s.classList.remove('active'));
+                    document.querySelectorAll('.nav-link').forEach(link => {
+                        link.classList.remove('active');
+                    });
+                    
+                    document.querySelectorAll('.section').forEach(section => {
+                        section.classList.remove('active');
+                    });
                     
                     // 添加active类到当前链接
-                    this.classList.add('active');
+                    navLink.classList.add('active');
                     
                     // 显示对应的section
-                    const targetId = this.getAttribute('href').substring(1);
-                    document.getElementById(targetId).classList.add('active');
-                });
-            });
-            
-            // 游戏切换
-            const gameBtns = document.querySelectorAll('.game-btn');
-            const gameAreas = document.querySelectorAll('.game-area');
-            
-            gameBtns.forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const game = this.getAttribute('data-game');
+                    const targetSection = document.getElementById(targetId);
+                    if (targetSection) {
+                        targetSection.classList.add('active');
+                        console.log("成功切换到:", targetId);
+                    } else {
+                        console.error("找不到目标section:", targetId);
+                    }
+                }
+                
+                // 游戏切换
+                if (e.target.classList.contains('game-btn') || e.target.closest('.game-btn')) {
+                    const gameBtn = e.target.classList.contains('game-btn') ? e.target : e.target.closest('.game-btn');
+                    const game = gameBtn.getAttribute('data-game');
+                    
+                    console.log("游戏切换:", game);
                     
                     // 移除所有active类
-                    gameBtns.forEach(b => b.classList.remove('active'));
-                    gameAreas.forEach(a => a.classList.remove('active'));
+                    document.querySelectorAll('.game-btn').forEach(btn => {
+                        btn.classList.remove('active');
+                    });
+                    
+                    document.querySelectorAll('.game-area').forEach(area => {
+                        area.classList.remove('active');
+                    });
                     
                     // 添加active类到当前游戏
-                    this.classList.add('active');
-                    document.getElementById(game).classList.add('active');
-                });
+                    gameBtn.classList.add('active');
+                    const targetGame = document.getElementById(game);
+                    if (targetGame) {
+                        targetGame.classList.add('active');
+                        console.log("成功切换到游戏:", game);
+                    } else {
+                        console.error("找不到目标游戏:", game);
+                    }
+                }
             });
             
             // 暗黑模式切换
@@ -1033,6 +1057,8 @@
             initializeTictactoe();
             initializeSnake();
             renderNotesList();
+            
+            console.log("所有功能初始化完成");
         });
 
         // 扫雷游戏实现
