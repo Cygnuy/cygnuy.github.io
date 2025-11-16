@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cygnuy的个人空间</title>
+    <title>Cygnuy的垃圾网页</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
@@ -67,7 +67,7 @@
             padding: 0 20px;
         }
 
-        /* 导航栏样式 - 谷歌风格 */
+        /* 导航栏样式 */
         header {
             background-color: var(--card-color);
             border-bottom: 1px solid var(--border-color);
@@ -305,7 +305,7 @@
             animation: fadeIn 0.3s ease;
         }
 
-        /* 扫雷游戏样式 */
+        /* 扫雷游戏样式 - 已调整大小 */
         .minesweeper-controls {
             display: flex;
             gap: 1rem;
@@ -351,8 +351,9 @@
             cursor: pointer;
             font-weight: 600;
             user-select: none;
-            min-width: 30px;
+            min-width: 25px;
             transition: var(--transition);
+            font-size: 14px;
         }
 
         .cell:hover {
@@ -360,7 +361,14 @@
         }
 
         .cell.revealed {
-            background-color: var(--surface-color);
+            background-color: #d0e7ff; /* 更明显的背景色 */
+            color: #1a73e8;
+            font-weight: bold;
+        }
+
+        .dark-mode .cell.revealed {
+            background-color: #1e3a5f; /* 暗黑模式下的明显背景色 */
+            color: #8ab4f8;
         }
 
         .cell.mine {
@@ -370,6 +378,90 @@
 
         .cell.flagged::before {
             content: "🚩";
+        }
+
+        /* 井字棋游戏样式 */
+        .tic-tac-toe-board {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 5px;
+            margin: 0 auto;
+            max-width: 300px;
+            background-color: var(--border-color);
+            padding: 5px;
+            border-radius: 4px;
+        }
+
+        .tile {
+            aspect-ratio: 1;
+            background-color: var(--card-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            cursor: pointer;
+            user-select: none;
+            border-radius: 4px;
+        }
+
+        .tile.x {
+            color: var(--primary-color);
+        }
+
+        .tile.o {
+            color: var(--warning-color);
+        }
+
+        /* 贪吃蛇游戏样式 */
+        .snake-controls {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .snake-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .snake-board {
+            display: grid;
+            gap: 1px;
+            margin: 0 auto;
+            background-color: var(--border-color);
+            border: 2px solid var(--border-color);
+            max-width: 400px;
+            max-height: 400px;
+        }
+
+        .snake-cell {
+            aspect-ratio: 1;
+            background-color: var(--card-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            user-select: none;
+            min-width: 20px;
+        }
+
+        .snake-cell.snake {
+            background-color: var(--secondary-color);
+            border-radius: 2px;
+        }
+
+        .snake-cell.head {
+            background-color: #2e7d32;
+            border-radius: 4px;
+        }
+
+        .snake-cell.food {
+            background-color: var(--warning-color);
+            border-radius: 50%;
         }
 
         /* 按钮样式 */
@@ -523,6 +615,58 @@
             flex-wrap: wrap;
         }
 
+        /* 导航页面样式 */
+        .links-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .link-card {
+            background-color: var(--card-color);
+            border-radius: var(--card-border-radius);
+            padding: 1.5rem;
+            text-decoration: none;
+            color: inherit;
+            transition: var(--transition);
+            border: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 1rem;
+        }
+
+        .link-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+            border-color: var(--primary-color);
+        }
+
+        .link-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .link-card h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .link-card p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .bilibili { color: #fb7299; }
+        .netease { color: #e60026; }
+        .github { color: #333; }
+        .dark-mode .github { color: #f0f6fc; }
+        .steam { color: #000; }
+        .bing { color: #00809d; }
+        .yandex { color: #ff0000; }
+
         /* 页脚样式 */
         footer {
             text-align: center;
@@ -564,6 +708,10 @@
             .section-title {
                 font-size: 1.5rem;
             }
+
+            .links-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
@@ -573,14 +721,15 @@
             <nav>
                 <div class="logo">
                     <div class="logo-icon">
-                        <i class="fas fa-user-astronaut"></i>
+                        <i class="fas fa-trash"></i>
                     </div>
-                    <span>Cygnuy的空间</span>
+                    <span>Cygnuy的垃圾网页</span>
                 </div>
                 <ul class="nav-links">
                     <li><a href="#home" class="nav-link active"><i class="fas fa-home"></i> 首页</a></li>
-                    <li><a href="#games" class="nav-link"><i class="fas fa-gamepad"></i> 游戏中心</a></li>
-                    <li><a href="#notes" class="nav-link"><i class="fas fa-sticky-note"></i> 笔记</a></li>
+                    <li><a href="#games" class="nav-link"><i class="fas fa-gamepad"></i> 垃圾游戏</a></li>
+                    <li><a href="#notes" class="nav-link"><i class="fas fa-sticky-note"></i> 垃圾笔记</a></li>
+                    <li><a href="#links" class="nav-link"><i class="fas fa-compass"></i> 有用链接</a></li>
                 </ul>
                 <button class="theme-toggle" id="themeToggle">
                     <i class="fas fa-moon"></i>
@@ -594,35 +743,36 @@
             <div class="card">
                 <div class="welcome-container">
                     <div class="welcome-text">
-                        <h1>欢迎来到我的个人空间</h1>
-                        <p>这里是一个集成了游戏和笔记功能的多功能网页应用。简洁的设计，流畅的体验，希望能给你带来愉快的使用感受。</p>
+                        <h1>欢迎来到我的垃圾网页</h1>
+                        <p>这是一个充满了各种垃圾功能和垃圾游戏的网页。代码写得烂，设计也丑，但至少它能运行（大部分时候）。</p>
+                        <p>随便看看吧，反正也没什么好看的。</p>
                         <div class="features-grid">
                             <div class="feature-card">
                                 <div class="feature-icon">
-                                    <i class="fas fa-gamepad"></i>
+                                    <i class="fas fa-bug"></i>
                                 </div>
-                                <h3>游戏中心</h3>
-                                <p>扫雷、井字棋等多种游戏</p>
+                                <h3>垃圾游戏</h3>
+                                <p>几个勉强能玩的游戏</p>
                             </div>
                             <div class="feature-card">
                                 <div class="feature-icon">
-                                    <i class="fas fa-sticky-note"></i>
+                                    <i class="fas fa-trash-alt"></i>
                                 </div>
-                                <h3>个人笔记</h3>
-                                <p>随时随地记录想法</p>
+                                <h3>垃圾笔记</h3>
+                                <p>记了也会忘记看</p>
                             </div>
                             <div class="feature-card">
                                 <div class="feature-icon">
-                                    <i class="fas fa-palette"></i>
+                                    <i class="fas fa-poop"></i>
                                 </div>
-                                <h3>主题切换</h3>
-                                <p>亮色/暗黑模式随心切换</p>
+                                <h3>垃圾设计</h3>
+                                <p>丑但能用</p>
                             </div>
                         </div>
                     </div>
                     <div class="welcome-image">
                         <div style="background: linear-gradient(135deg, var(--primary-color), #6c5ce7); height: 100%; border-radius: var(--card-border-radius); display: flex; align-items: center; justify-content: center; color: white; font-size: 5rem;">
-                            <i class="fas fa-user-astronaut"></i>
+                            <i class="fas fa-trash"></i>
                         </div>
                     </div>
                 </div>
@@ -630,7 +780,7 @@
         </section>
 
         <section id="games" class="section">
-            <h2 class="section-title"><i class="fas fa-gamepad"></i> 游戏中心</h2>
+            <h2 class="section-title"><i class="fas fa-gamepad"></i> 垃圾游戏中心</h2>
             
             <div class="card">
                 <div class="game-selector">
@@ -639,6 +789,9 @@
                     </button>
                     <button class="game-btn" data-game="tictactoe">
                         <i class="fas fa-times"></i> 井字棋
+                    </button>
+                    <button class="game-btn" data-game="snake">
+                        <i class="fas fa-worm"></i> 贪吃蛇
                     </button>
                 </div>
 
@@ -688,37 +841,116 @@
                     </div>
                     <div class="tic-tac-toe-board" id="tictactoeBoard"></div>
                 </div>
+
+                <div id="snake" class="game-area">
+                    <div class="snake-controls">
+                        <button id="startSnake" class="btn btn-primary">
+                            <i class="fas fa-play"></i> 开始游戏
+                        </button>
+                        <button id="resetSnake" class="btn btn-primary">
+                            <i class="fas fa-redo"></i> 重新开始
+                        </button>
+                        <button id="pauseSnake" class="btn btn-warning">
+                            <i class="fas fa-pause"></i> 暂停
+                        </button>
+                    </div>
+                    <div class="snake-info">
+                        <div class="info-item">
+                            <i class="fas fa-star"></i>
+                            <span>分数: <span id="snakeScore">0</span></span>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-info-circle"></i>
+                            <span>状态: <span id="snakeStatus">准备开始</span></span>
+                        </div>
+                    </div>
+                    <div class="snake-board" id="snakeBoard"></div>
+                    <div style="text-align: center; margin-top: 1rem;">
+                        <p>使用 <strong>WASD</strong> 或 <strong>方向键</strong> 控制蛇的移动</p>
+                    </div>
+                </div>
             </div>
         </section>
 
         <section id="notes" class="section">
-            <h2 class="section-title"><i class="fas fa-sticky-note"></i> 笔记</h2>
+            <h2 class="section-title"><i class="fas fa-sticky-note"></i> 垃圾笔记</h2>
             
             <div class="card">
                 <div class="notes-container">
                     <div class="notes-sidebar">
                         <button id="newNote" class="btn btn-primary">
-                            <i class="fas fa-plus"></i> 新建笔记
+                            <i class="fas fa-plus"></i> 新建垃圾笔记
                         </button>
                         <div class="notes-list" id="notesList"></div>
                         <div style="margin-top: auto; padding-top: 1rem; border-top: 1px solid var(--border-color);">
                             <p style="font-size: 0.85rem; color: var(--text-secondary); text-align: center;">
-                                笔记自动保存在浏览器本地
+                                笔记自动保存在浏览器本地<br>丢了别怪我
                             </p>
                         </div>
                     </div>
                     <div class="notes-main">
-                        <input type="text" class="note-title-input" id="noteTitle" placeholder="笔记标题">
-                        <textarea class="note-content" id="noteContent" placeholder="开始记录你的想法..."></textarea>
+                        <input type="text" class="note-title-input" id="noteTitle" placeholder="垃圾笔记标题">
+                        <textarea class="note-content" id="noteContent" placeholder="开始记录你的垃圾想法..."></textarea>
                         <div class="notes-actions">
                             <button id="saveNote" class="btn btn-success">
-                                <i class="fas fa-save"></i> 保存笔记
+                                <i class="fas fa-save"></i> 保存垃圾
                             </button>
                             <button id="deleteNote" class="btn btn-danger">
-                                <i class="fas fa-trash"></i> 删除笔记
+                                <i class="fas fa-trash"></i> 删除垃圾
                             </button>
                         </div>
                     </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="links" class="section">
+            <h2 class="section-title"><i class="fas fa-compass"></i> 有用链接</h2>
+            <div class="card">
+                <p style="margin-bottom: 1.5rem; color: var(--text-secondary);">这些链接可能比我的垃圾网页有用多了。</p>
+                <div class="links-grid">
+                    <a href="https://www.bilibili.com" class="link-card" target="_blank">
+                        <div class="link-icon bilibili">
+                            <i class="fab fa-bilibili"></i>
+                        </div>
+                        <h3>Bilibili</h3>
+                        <p>噼里啪啦还不好看？</p>
+                    </a>
+                    <a href="https://music.163.com" class="link-card" target="_blank">
+                        <div class="link-icon netease">
+                            <i class="fas fa-music"></i>
+                        </div>
+                        <h3>网易云音乐</h3>
+                        <p>发现和分享音乐的平台</p>
+                    </a>
+                    <a href="https://github.com/Cygnuy" class="link-card" target="_blank">
+                        <div class="link-icon github">
+                            <i class="fab fa-github"></i>
+                        </div>
+                        <h3>GitHub</h3>
+                        <p>Cygnuy的GitHub主页</p>
+                    </a>
+                    <a href="https://store.steampowered.com" class="link-card" target="_blank">
+                        <div class="link-icon steam">
+                            <i class="fab fa-steam"></i>
+                        </div>
+                        <h3>Steam</h3>
+                        <p>畅玩、讨论、创造游戏</p>
+                    </a>
+                    <a href="https://www.bing.com" class="link-card" target="_blank">
+                        <div class="link-icon bing">
+                            <i class="fas fa-search"></i>
+                        </div>
+                        <h3>Bing</h3>
+                        <p>微软搜索引擎</p>
+                    </a>
+                    <a href="https://yandex.com" class="link-card" target="_blank">
+                        <div class="link-icon yandex">
+                            <i class="fas fa-search"></i>
+                        </div>
+                        <h3>Yandex</h3>
+                        <p>俄罗斯搜索引擎</p>
+                    </a>
                 </div>
             </div>
         </section>
@@ -726,7 +958,7 @@
 
     <footer>
         <div class="container">
-            <p>© 2023 Cygnuy的个人空间 | 简洁 · 实用 · 美观</p>
+            <p>© 2025 Cygnuy的垃圾网页 | 烂但能用 · 丑但能看 </p>
         </div>
     </footer>
 
@@ -799,6 +1031,7 @@
             // 初始化功能
             initializeMinesweeper();
             initializeTictactoe();
+            initializeSnake();
             renderNotesList();
         });
 
@@ -1029,24 +1262,10 @@
             currentPlayerElement.textContent = currentPlayer;
             
             tictactoeBoard.innerHTML = '';
-            tictactoeBoard.style.display = 'grid';
-            tictactoeBoard.style.gridTemplateColumns = 'repeat(3, 1fr)';
-            tictactoeBoard.style.gap = '5px';
-            tictactoeBoard.style.maxWidth = '300px';
-            tictactoeBoard.style.margin = '0 auto';
-            tictactoeBoard.style.backgroundColor = 'var(--border-color)';
             
             for (let i = 0; i < 9; i++) {
                 const tile = document.createElement('div');
-                tile.className = 'cell';
-                tile.style.aspectRatio = '1';
-                tile.style.backgroundColor = 'var(--card-color)';
-                tile.style.display = 'flex';
-                tile.style.alignItems = 'center';
-                tile.style.justifyContent = 'center';
-                tile.style.fontSize = '2rem';
-                tile.style.cursor = 'pointer';
-                tile.style.userSelect = 'none';
+                tile.className = 'tile';
                 tile.dataset.index = i;
                 tile.addEventListener('click', () => handleTileClick(i));
                 tictactoeBoard.appendChild(tile);
@@ -1060,9 +1279,9 @@
             
             // 玩家移动
             boardState[index] = currentPlayer;
-            const tile = document.querySelector(`.cell[data-index="${index}"]`);
+            const tile = document.querySelector(`.tile[data-index="${index}"]`);
             tile.textContent = currentPlayer;
-            tile.style.color = currentPlayer === 'X' ? 'var(--primary-color)' : 'var(--warning-color)';
+            tile.classList.add(currentPlayer.toLowerCase());
             
             if (checkWinner()) {
                 gameActive = false;
@@ -1094,9 +1313,9 @@
             
             if (move !== -1) {
                 boardState[move] = 'O';
-                const tile = document.querySelector(`.cell[data-index="${move}"]`);
+                const tile = document.querySelector(`.tile[data-index="${move}"]`);
                 tile.textContent = 'O';
-                tile.style.color = 'var(--warning-color)';
+                tile.classList.add('o');
                 
                 if (checkWinner()) {
                     gameActive = false;
@@ -1167,6 +1386,195 @@
         resetTictactoeBtn.addEventListener('click', initializeTictactoe);
         gameModeSelect.addEventListener('change', initializeTictactoe);
 
+        // 贪吃蛇游戏实现
+        const snakeBoard = document.getElementById('snakeBoard');
+        const snakeScoreElement = document.getElementById('snakeScore');
+        const snakeStatusElement = document.getElementById('snakeStatus');
+        const startSnakeBtn = document.getElementById('startSnake');
+        const resetSnakeBtn = document.getElementById('resetSnake');
+        const pauseSnakeBtn = document.getElementById('pauseSnake');
+
+        const snakeBoardSize = 15;
+        let snake = [];
+        let food = {};
+        let direction = 'right';
+        let nextDirection = 'right';
+        let gameInterval;
+        let score = 0;
+        let isPaused = false;
+        let isGameOver = false;
+
+        function initializeSnake() {
+            clearInterval(gameInterval);
+            snake = [{x: 5, y: 7}];
+            direction = 'right';
+            nextDirection = 'right';
+            score = 0;
+            isPaused = false;
+            isGameOver = false;
+            snakeScoreElement.textContent = score;
+            snakeStatusElement.textContent = "准备开始";
+            pauseSnakeBtn.innerHTML = '<i class="fas fa-pause"></i> 暂停';
+            
+            // 创建游戏板
+            snakeBoard.innerHTML = '';
+            snakeBoard.style.gridTemplateColumns = `repeat(${snakeBoardSize}, 1fr)`;
+            
+            for (let i = 0; i < snakeBoardSize; i++) {
+                for (let j = 0; j < snakeBoardSize; j++) {
+                    const cell = document.createElement('div');
+                    cell.className = 'snake-cell';
+                    cell.dataset.x = j;
+                    cell.dataset.y = i;
+                    snakeBoard.appendChild(cell);
+                }
+            }
+            
+            // 放置食物
+            placeFood();
+            renderSnake();
+        }
+
+        function placeFood() {
+            let newFood;
+            do {
+                newFood = {
+                    x: Math.floor(Math.random() * snakeBoardSize),
+                    y: Math.floor(Math.random() * snakeBoardSize)
+                };
+            } while (snake.some(segment => segment.x === newFood.x && segment.y === newFood.y));
+            
+            food = newFood;
+        }
+
+        function renderSnake() {
+            // 清除所有单元格
+            document.querySelectorAll('.snake-cell').forEach(cell => {
+                cell.classList.remove('snake', 'head', 'food');
+            });
+            
+            // 渲染蛇身
+            snake.forEach((segment, index) => {
+                const cell = document.querySelector(`.snake-cell[data-x="${segment.x}"][data-y="${segment.y}"]`);
+                if (cell) {
+                    cell.classList.add('snake');
+                    if (index === 0) {
+                        cell.classList.add('head');
+                    }
+                }
+            });
+            
+            // 渲染食物
+            const foodCell = document.querySelector(`.snake-cell[data-x="${food.x}"][data-y="${food.y}"]`);
+            if (foodCell) {
+                foodCell.classList.add('food');
+            }
+        }
+
+        function startGame() {
+            if (isGameOver) {
+                initializeSnake();
+            }
+            
+            isPaused = false;
+            snakeStatusElement.textContent = "游戏中";
+            gameInterval = setInterval(moveSnake, 200);
+        }
+
+        function moveSnake() {
+            if (isPaused || isGameOver) return;
+            
+            direction = nextDirection;
+            
+            // 计算新的头部位置
+            const head = {...snake[0]};
+            switch (direction) {
+                case 'up': head.y--; break;
+                case 'down': head.y++; break;
+                case 'left': head.x--; break;
+                case 'right': head.x++; break;
+            }
+            
+            // 检查碰撞
+            if (
+                head.x < 0 || head.x >= snakeBoardSize ||
+                head.y < 0 || head.y >= snakeBoardSize ||
+                snake.some(segment => segment.x === head.x && segment.y === head.y)
+            ) {
+                gameOver();
+                return;
+            }
+            
+            // 移动蛇
+            snake.unshift(head);
+            
+            // 检查是否吃到食物
+            if (head.x === food.x && head.y === food.y) {
+                score++;
+                snakeScoreElement.textContent = score;
+                placeFood();
+            } else {
+                snake.pop();
+            }
+            
+            renderSnake();
+        }
+
+        function gameOver() {
+            clearInterval(gameInterval);
+            isGameOver = true;
+            snakeStatusElement.textContent = "游戏结束！最终得分: " + score;
+            setTimeout(() => alert(`游戏结束！你的得分是: ${score}`), 100);
+        }
+
+        function pauseGame() {
+            if (isGameOver) return;
+            
+            if (isPaused) {
+                isPaused = false;
+                snakeStatusElement.textContent = "游戏中";
+                gameInterval = setInterval(moveSnake, 200);
+                pauseSnakeBtn.innerHTML = '<i class="fas fa-pause"></i> 暂停';
+            } else {
+                isPaused = true;
+                snakeStatusElement.textContent = "已暂停";
+                clearInterval(gameInterval);
+                pauseSnakeBtn.innerHTML = '<i class="fas fa-play"></i> 继续';
+            }
+        }
+
+        // 键盘控制
+        document.addEventListener('keydown', (e) => {
+            if (isGameOver || isPaused) return;
+            
+            switch (e.key) {
+                case 'ArrowUp':
+                case 'w':
+                case 'W':
+                    if (direction !== 'down') nextDirection = 'up';
+                    break;
+                case 'ArrowDown':
+                case 's':
+                case 'S':
+                    if (direction !== 'up') nextDirection = 'down';
+                    break;
+                case 'ArrowLeft':
+                case 'a':
+                case 'A':
+                    if (direction !== 'right') nextDirection = 'left';
+                    break;
+                case 'ArrowRight':
+                case 'd':
+                case 'D':
+                    if (direction !== 'left') nextDirection = 'right';
+                    break;
+            }
+        });
+
+        startSnakeBtn.addEventListener('click', startGame);
+        resetSnakeBtn.addEventListener('click', initializeSnake);
+        pauseSnakeBtn.addEventListener('click', pauseGame);
+
         // 笔记功能实现
         const newNoteBtn = document.getElementById('newNote');
         const saveNoteBtn = document.getElementById('saveNote');
@@ -1182,7 +1590,7 @@
             notesList.innerHTML = '';
             
             if (notes.length === 0) {
-                notesList.innerHTML = '<div style="text-align: center; padding: 2rem; color: var(--text-secondary);"><i class="fas fa-sticky-note" style="font-size: 2rem; margin-bottom: 1rem; opacity: 0.5;"></i><p>暂无笔记</p></div>';
+                notesList.innerHTML = '<div style="text-align: center; padding: 2rem; color: var(--text-secondary);"><i class="fas fa-sticky-note" style="font-size: 2rem; margin-bottom: 1rem; opacity: 0.5;"></i><p>暂无垃圾笔记</p></div>';
                 return;
             }
             
@@ -1193,7 +1601,7 @@
                     noteItem.classList.add('active');
                 }
                 
-                const title = note.title || '无标题笔记';
+                const title = note.title || '无标题垃圾笔记';
                 const date = new Date(note.date).toLocaleDateString();
                 const preview = note.content.substring(0, 30) + (note.content.length > 30 ? '...' : '');
                 
@@ -1267,7 +1675,7 @@
                 return;
             }
             
-            if (confirm('确定要删除这条笔记吗？此操作不可撤销。')) {
+            if (confirm('确定要删除这条垃圾笔记吗？此操作不可撤销。')) {
                 notes = notes.filter(note => note.id !== currentNoteId);
                 localStorage.setItem('notes', JSON.stringify(notes));
                 currentNoteId = null;
