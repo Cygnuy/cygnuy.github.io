@@ -77,15 +77,15 @@
             z-index: 1;
         }
 
-        /* 为内容区域添加轻微透明度，让壁纸隐约透出 */
+        /* 为内容区域添加更高透明度，让壁纸更明显 */
         .card {
-            background-color: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(10px);
+            background-color: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(15px);
         }
         
         .dark-mode .card {
-            background-color: rgba(32, 33, 36, 0.85);
-            backdrop-filter: blur(10px);
+            background-color: rgba(32, 33, 36, 0.7);
+            backdrop-filter: blur(15px);
         }
 
         /* 为body添加过渡效果 */
@@ -95,22 +95,92 @@
 
         /* 确保导航栏在半透明背景上清晰可见 */
         header {
-            background-color: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(15px);
+            background-color: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(20px);
         }
         
         .dark-mode header {
-            background-color: rgba(32, 33, 36, 0.85);
+            background-color: rgba(32, 33, 36, 0.75);
         }
         
         /* 为footer也添加半透明效果 */
         footer {
-            background-color: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(15px);
+            background-color: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(20px);
         }
         
         .dark-mode footer {
-            background-color: rgba(32, 33, 36, 0.85);
+            background-color: rgba(32, 33, 36, 0.75);
+        }
+
+        /* 为功能卡片增加透明度 */
+        .feature-card {
+            background-color: rgba(255, 255, 255, 0.65);
+            backdrop-filter: blur(10px);
+        }
+
+        .dark-mode .feature-card {
+            background-color: rgba(32, 33, 36, 0.65);
+        }
+
+        /* 为链接卡片增加透明度 */
+        .link-card {
+            background-color: rgba(255, 255, 255, 0.65);
+            backdrop-filter: blur(10px);
+        }
+
+        .dark-mode .link-card {
+            background-color: rgba(32, 33, 36, 0.65);
+        }
+
+        /* 为信息项增加透明度 */
+        .info-item {
+            background-color: rgba(255, 255, 255, 0.65);
+            backdrop-filter: blur(10px);
+        }
+
+        .dark-mode .info-item {
+            background-color: rgba(32, 33, 36, 0.65);
+        }
+
+        /* 为笔记侧边栏增加透明度 */
+        .notes-sidebar {
+            background-color: rgba(255, 255, 255, 0.65);
+            backdrop-filter: blur(10px);
+        }
+
+        .dark-mode .notes-sidebar {
+            background-color: rgba(32, 33, 36, 0.65);
+        }
+
+        /* 为笔记项增加透明度 */
+        .note-item {
+            background-color: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(8px);
+        }
+
+        .dark-mode .note-item {
+            background-color: rgba(32, 33, 36, 0.6);
+        }
+
+        /* 为音乐列表项增加透明度 */
+        .music-item {
+            background-color: rgba(255, 255, 255, 0.65);
+            backdrop-filter: blur(8px);
+        }
+
+        .dark-mode .music-item {
+            background-color: rgba(32, 33, 36, 0.65);
+        }
+
+        /* 为设置项增加透明度 */
+        .setting-item {
+            background-color: rgba(255, 255, 255, 0.65);
+            backdrop-filter: blur(8px);
+        }
+
+        .dark-mode .setting-item {
+            background-color: rgba(32, 33, 36, 0.65);
         }
 
         /* 导航栏样式 */
@@ -272,7 +342,6 @@
         }
 
         .feature-card {
-            background-color: var(--surface-color);
             border-radius: var(--border-radius);
             padding: 1.5rem;
             text-align: center;
@@ -370,7 +439,6 @@
             align-items: center;
             gap: 8px;
             padding: 0.5rem 1rem;
-            background-color: var(--surface-color);
             border-radius: var(--border-radius);
         }
 
@@ -584,7 +652,6 @@
         }
 
         .notes-sidebar {
-            background-color: var(--card-color);
             border-radius: var(--card-border-radius);
             padding: 1.5rem;
             display: flex;
@@ -605,7 +672,6 @@
             margin-bottom: 0.5rem;
             cursor: pointer;
             border-left: 3px solid var(--primary-color);
-            background-color: var(--surface-color);
             transition: var(--transition);
         }
 
@@ -667,7 +733,6 @@
         }
 
         .link-card {
-            background-color: var(--card-color);
             border-radius: var(--card-border-radius);
             padding: 1.5rem;
             text-decoration: none;
