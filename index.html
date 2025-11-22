@@ -65,14 +65,43 @@
             padding: 0 20px;
         }
 
+        /* 确保内容区域有背景色，保证文字可读性 */
+        .container, .card, header, footer {
+            background-color: var(--card-color);
+            position: relative;
+            z-index: 1;
+        }
+
+        /* 为内容区域添加轻微透明度，让壁纸隐约透出 */
+        .card {
+            background-color: rgba(255, 255, 255, 0.92);
+        }
+
+        .dark-mode .card {
+            background-color: rgba(32, 33, 36, 0.92);
+        }
+
+        /* 为body添加过渡效果 */
+        body {
+            transition: background-image 0.5s ease;
+        }
+
+        /* 确保导航栏在半透明背景上清晰可见 */
+        header {
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+        }
+
+        .dark-mode header {
+            background-color: rgba(32, 33, 36, 0.95);
+        }
+
         /* 导航栏样式 */
         header {
-            background-color: var(--card-color);
             border-bottom: 1px solid var(--border-color);
             position: sticky;
             top: 0;
             z-index: 100;
-            backdrop-filter: blur(10px);
         }
 
         nav {
@@ -184,7 +213,6 @@
 
         /* 卡片样式 */
         .card {
-            background-color: var(--card-color);
             border-radius: var(--card-border-radius);
             box-shadow: var(--shadow);
             padding: 1.5rem;
@@ -1166,7 +1194,7 @@
                             <i class="fab fa-bilibili"></i>
                         </div>
                         <h3>Bilibili</h3>
-                        <p>我的天哪噼里啪啦！</p>
+                        <p>中国领先的年轻人文化社区</p>
                     </a>
                     <a href="https://music.163.com" class="link-card" target="_blank">
                         <div class="link-icon netease">
@@ -1214,6 +1242,16 @@
                 <div class="settings-container">
                     <div class="setting-item">
                         <div class="setting-info">
+                            <h3>显示壁纸</h3>
+                            <p>开启后每次访问会随机显示一张壁纸</p>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" id="showWallpaper" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <div class="setting-item">
+                        <div class="setting-info">
                             <h3>雪花效果</h3>
                             <p>在鼠标周围生成飘落的雪花</p>
                         </div>
@@ -1259,7 +1297,7 @@
 
     <footer>
         <div class="container">
-            <p>© 2025 Cygnuy的垃圾网页 | 烂但能用 · 丑但能看 </p>
+            <p>© 2025 Cygnuy的垃圾网页 | 烂但能用 · 丑但能看</p>
         </div>
     </footer>
 
@@ -1797,6 +1835,21 @@
             const clickEffect = document.getElementById('clickEffect');
             const autoSaveNotes = document.getElementById('autoSaveNotes');
             const gameSounds = document.getElementById('gameSounds');
+            const showWallpaper = document.getElementById('showWallpaper');
+            
+            // 壁纸图片列表 - 使用镜像站URL
+            const wallpapers = [
+                'https://hub.gitmirror.com/raw.githubusercontent.com/Cygnuy/cygnuy.github.io/main/IMAGE/wallpaper1.png',
+                'https://hub.gitmirror.com/raw.githubusercontent.com/Cygnuy/cygnuy.github.io/main/IMAGE/wallpaper2.png',
+                'https://hub.gitmirror.com/raw.githubusercontent.com/Cygnuy/cygnuy.github.io/main/IMAGE/wallpaper3.png',
+                'https://hub.gitmirror.com/raw.githubusercontent.com/Cygnuy/cygnuy.github.io/main/IMAGE/wallpaper4.png',
+                'https://hub.gitmirror.com/raw.githubusercontent.com/Cygnuy/cygnuy.github.io/main/IMAGE/wallpaper5.png',
+                'https://hub.gitmirror.com/raw.githubusercontent.com/Cygnuy/cygnuy.github.io/main/IMAGE/wallpaper6.jpeg',
+                'https://hub.gitmirror.com/raw.githubusercontent.com/Cygnuy/cygnuy.github.io/main/IMAGE/wallpaper7.jpeg',
+                'https://hub.gitmirror.com/raw.githubusercontent.com/Cygnuy/cygnuy.github.io/main/IMAGE/wallpaper8.png',
+                'https://hub.gitmirror.com/raw.githubusercontent.com/Cygnuy/cygnuy.github.io/main/IMAGE/wallpaper9.jpeg',
+                'https://hub.gitmirror.com/raw.githubusercontent.com/Cygnuy/cygnuy.github.io/main/IMAGE/wallpaper10.jpeg'
+            ];
             
             // 加载保存的设置
             function loadSettings() {
@@ -1804,6 +1857,7 @@
                 clickEffect.checked = localStorage.getItem('clickEffect') !== 'false';
                 autoSaveNotes.checked = localStorage.getItem('autoSaveNotes') === 'true';
                 gameSounds.checked = localStorage.getItem('gameSounds') !== 'false';
+                showWallpaper.checked = localStorage.getItem('showWallpaper') !== 'false';
                 
                 // 应用设置
                 applySettings();
@@ -1821,6 +1875,12 @@
                     enableClickEffect();
                 } else {
                     disableClickEffect();
+                }
+                
+                if (showWallpaper.checked) {
+                    applyRandomWallpaper();
+                } else {
+                    removeWallpaper();
                 }
             }
             
@@ -1878,12 +1938,48 @@
                 }, 500);
             }
             
+            // 壁纸功能
+            function applyRandomWallpaper() {
+                if (wallpapers.length === 0) return;
+                
+                const randomIndex = Math.floor(Math.random() * wallpapers.length);
+                const randomWallpaper = wallpapers[randomIndex];
+                
+                // 创建图片元素预加载
+                const img = new Image();
+                img.onload = function() {
+                    document.body.style.backgroundImage = `url('${randomWallpaper}')`;
+                    document.body.style.backgroundSize = 'cover';
+                    document.body.style.backgroundPosition = 'center';
+                    document.body.style.backgroundAttachment = 'fixed';
+                    document.body.style.backgroundRepeat = 'no-repeat';
+                    
+                    // 保存当前壁纸信息（可选）
+                    localStorage.setItem('currentWallpaper', randomWallpaper);
+                };
+                
+                img.onerror = function() {
+                    console.error('壁纸加载失败:', randomWallpaper);
+                    // 如果图片加载失败，移除壁纸
+                    removeWallpaper();
+                };
+                
+                img.src = randomWallpaper;
+            }
+            
+            // 移除壁纸
+            function removeWallpaper() {
+                document.body.style.backgroundImage = '';
+                document.body.style.backgroundColor = '';
+            }
+            
             // 保存设置
             function saveSettings() {
                 localStorage.setItem('snowEffect', snowEffect.checked);
                 localStorage.setItem('clickEffect', clickEffect.checked);
                 localStorage.setItem('autoSaveNotes', autoSaveNotes.checked);
                 localStorage.setItem('gameSounds', gameSounds.checked);
+                localStorage.setItem('showWallpaper', showWallpaper.checked);
                 
                 applySettings();
             }
@@ -1893,6 +1989,7 @@
             clickEffect.addEventListener('change', saveSettings);
             autoSaveNotes.addEventListener('change', saveSettings);
             gameSounds.addEventListener('change', saveSettings);
+            showWallpaper.addEventListener('change', saveSettings);
             
             // 初始化设置
             loadSettings();
