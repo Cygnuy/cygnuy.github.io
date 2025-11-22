@@ -66,7 +66,12 @@
         }
 
         /* 确保内容区域有背景色，保证文字可读性 */
-        .container, .card, header, footer {
+        .container {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .card, header, footer {
             background-color: var(--card-color);
             position: relative;
             z-index: 1;
@@ -74,11 +79,13 @@
 
         /* 为内容区域添加轻微透明度，让壁纸隐约透出 */
         .card {
-            background-color: rgba(255, 255, 255, 0.92);
+            background-color: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
         }
-
+        
         .dark-mode .card {
-            background-color: rgba(32, 33, 36, 0.92);
+            background-color: rgba(32, 33, 36, 0.85);
+            backdrop-filter: blur(10px);
         }
 
         /* 为body添加过渡效果 */
@@ -88,12 +95,22 @@
 
         /* 确保导航栏在半透明背景上清晰可见 */
         header {
-            background-color: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
+            background-color: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(15px);
         }
-
+        
         .dark-mode header {
-            background-color: rgba(32, 33, 36, 0.95);
+            background-color: rgba(32, 33, 36, 0.85);
+        }
+        
+        /* 为footer也添加半透明效果 */
+        footer {
+            background-color: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(15px);
+        }
+        
+        .dark-mode footer {
+            background-color: rgba(32, 33, 36, 0.85);
         }
 
         /* 导航栏样式 */
