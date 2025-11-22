@@ -56,6 +56,7 @@
             color: var(--text-primary);
             line-height: 1.6;
             transition: var(--transition);
+            overflow-x: hidden;
         }
 
         .container {
@@ -664,6 +665,167 @@
         .bing { color: #00809d; }
         .yandex { color: #ff0000; }
 
+        /* 音乐页面样式 */
+        .music-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .music-search {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .music-search input {
+            flex-grow: 1;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            background-color: var(--card-color);
+            color: var(--text-primary);
+            font-family: inherit;
+            min-width: 200px;
+        }
+
+        .music-search input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px var(--primary-light);
+        }
+
+        .music-list {
+            max-height: 600px;
+            overflow-y: auto;
+            border-radius: var(--border-radius);
+            border: 1px solid var(--border-color);
+        }
+
+        .music-item {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: var(--transition);
+            gap: 1rem;
+        }
+
+        .music-item:hover {
+            background-color: var(--surface-color);
+        }
+
+        .music-item:last-child {
+            border-bottom: none;
+        }
+
+        .music-info {
+            flex-grow: 1;
+            min-width: 0;
+        }
+
+        .music-title {
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .music-artist {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .music-actions {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+        }
+
+        .music-actions .btn {
+            padding: 0.5rem 0.75rem;
+            font-size: 0.85rem;
+            white-space: nowrap;
+        }
+
+        /* 设置页面样式 */
+        .settings-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .setting-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .setting-info h3 {
+            font-size: 1rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .setting-info p {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        /* 开关样式 */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 24px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: var(--primary-color);
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+
         /* 页脚样式 */
         footer {
             text-align: center;
@@ -672,6 +834,41 @@
             border-top: 1px solid var(--border-color);
             margin-top: 2rem;
             font-size: 0.9rem;
+        }
+
+        /* 雪花效果 */
+        .snowflake {
+            position: fixed;
+            top: -10px;
+            color: #ffffff;
+            font-size: 1em;
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0.8;
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+        }
+
+        /* 点击特效 */
+        .click-effect {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            pointer-events: none;
+            z-index: 9999;
+            background: radial-gradient(circle, var(--primary-color) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: clickEffect 0.5s ease-out forwards;
+        }
+
+        @keyframes clickEffect {
+            0% {
+                transform: scale(0.5);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(2);
+                opacity: 0;
+            }
         }
 
         /* 响应式设计 */
@@ -709,6 +906,32 @@
             .links-grid {
                 grid-template-columns: 1fr;
             }
+
+            .music-search {
+                flex-direction: column;
+            }
+
+            .setting-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            .music-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+            
+            .music-actions {
+                width: 100%;
+                justify-content: stretch;
+            }
+            
+            .music-actions .btn {
+                flex: 1;
+                justify-content: center;
+            }
         }
     </style>
 </head>
@@ -725,8 +948,10 @@
                 <ul class="nav-links">
                     <li><a href="#home" class="nav-link active"><i class="fas fa-home"></i> 首页</a></li>
                     <li><a href="#games" class="nav-link"><i class="fas fa-gamepad"></i> 垃圾游戏</a></li>
+                    <li><a href="#music" class="nav-link"><i class="fas fa-music"></i> 垃圾音乐</a></li>
                     <li><a href="#notes" class="nav-link"><i class="fas fa-sticky-note"></i> 垃圾笔记</a></li>
                     <li><a href="#links" class="nav-link"><i class="fas fa-compass"></i> 有用链接</a></li>
+                    <li><a href="#settings" class="nav-link"><i class="fas fa-cog"></i> 垃圾设置</a></li>
                 </ul>
                 <button class="theme-toggle" id="themeToggle">
                     <i class="fas fa-moon"></i>
@@ -757,6 +982,13 @@
                                 </div>
                                 <h3>垃圾笔记</h3>
                                 <p>记了也会忘记看</p>
+                            </div>
+                            <div class="feature-card">
+                                <div class="feature-icon">
+                                    <i class="fas fa-music"></i>
+                                </div>
+                                <h3>垃圾音乐</h3>
+                                <p>听个响就行</p>
                             </div>
                             <div class="feature-card">
                                 <div class="feature-icon">
@@ -869,6 +1101,29 @@
             </div>
         </section>
 
+        <section id="music" class="section">
+            <h2 class="section-title"><i class="fas fa-music"></i> 垃圾音乐</h2>
+            
+            <div class="card">
+                <div class="music-container">
+                    <div class="music-search">
+                        <input type="text" id="musicSearch" placeholder="搜索垃圾音乐...">
+                        <button id="clearSearch" class="btn btn-warning">
+                            <i class="fas fa-times"></i> 清除
+                        </button>
+                    </div>
+                    <div class="music-list" id="musicList">
+                        <!-- 音乐列表将通过JavaScript动态生成 -->
+                    </div>
+                    <div style="margin-top: 1rem; text-align: center;">
+                        <p style="color: var(--text-secondary); font-size: 0.9rem;">
+                            点击音乐名称将跳转到对应平台搜索页面
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <section id="notes" class="section">
             <h2 class="section-title"><i class="fas fa-sticky-note"></i> 垃圾笔记</h2>
             
@@ -951,11 +1206,60 @@
                 </div>
             </div>
         </section>
+
+        <section id="settings" class="section">
+            <h2 class="section-title"><i class="fas fa-cog"></i> 垃圾设置</h2>
+            
+            <div class="card">
+                <div class="settings-container">
+                    <div class="setting-item">
+                        <div class="setting-info">
+                            <h3>雪花效果</h3>
+                            <p>在鼠标周围生成飘落的雪花</p>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" id="snowEffect">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <div class="setting-item">
+                        <div class="setting-info">
+                            <h3>点击特效</h3>
+                            <p>点击页面时产生粒子效果</p>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" id="clickEffect">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <div class="setting-item">
+                        <div class="setting-info">
+                            <h3>自动保存笔记</h3>
+                            <p>编辑笔记时自动保存内容</p>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" id="autoSaveNotes">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <div class="setting-item">
+                        <div class="setting-info">
+                            <h3>游戏音效</h3>
+                            <p>在游戏中播放音效</p>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" id="gameSounds">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </section>
     </main>
 
     <footer>
         <div class="container">
-            <p>© 2023 Cygnuy的垃圾网页 | 烂但能用 · 丑但能看 · 垃圾但免费</p>
+            <p>© 2025 Cygnuy的垃圾网页 | 烂但能用 · 丑但能看 </p>
         </div>
     </footer>
 
@@ -969,6 +1273,8 @@
             initializeSnake();
             initializeNotes();
             initializeThemeToggle();
+            initializeMusic();
+            initializeSettings();
         });
 
         // 导航功能
@@ -1036,6 +1342,560 @@
                     localStorage.setItem('darkMode', 'false');
                 }
             });
+        }
+
+        // 音乐功能实现
+        function initializeMusic() {
+            const musicList = document.getElementById('musicList');
+            const musicSearch = document.getElementById('musicSearch');
+            const clearSearch = document.getElementById('clearSearch');
+            
+            // 音乐数据
+            const musicData = [
+                { title: '心之所向', artist: '姜米條' },
+                { title: 'Glacier', artist: 'Laur' },
+                { title: '创 / Demiurge', artist: 'RABPIT' },
+                { title: 'ボクとワタシの', artist: '近藤佑輔' },
+                { title: 'Waking Shadows', artist: 'Sad Keyboard Guy / Gardens / Eili' },
+                { title: 'Jazzor T Version', artist: '无毒蜗牛' },
+                { title: 'Factorder', artist: '瀬名水紀 / 梨雛' },
+                { title: 'Alismonitos Lethaeus', artist: 'Silentroom' },
+                { title: 'Sphalerite', artist: 'CS4W / RYOQUCHA' },
+                { title: 'Tempest - Plum', artist: 'Melodic Artist' },
+                { title: 'You are the Miserable', artist: 't+pazolite' },
+                { title: 'VOCAEND', artist: 'ぬぬぬぬぬぬぬぬぬぬぬぬぬぬぬぬぬぬぬぬぬぬぬぬぬぬぬぬぬぬぬぬぬぬぬぬぬぬぬぬぬぬぬぬぬぬぬぬぬぬぬぬぬぬぬぬぬぬぬぬぬぬぬぬぬぬぬぬぬぬ' },
+                { title: 'NEO', artist: '初音ミク / 星乃一歌 / 花里みのり / 小豆沢こはね / 天馬司 / 宵崎奏 / じん' },
+                { title: 'bloom (-Piano version-)', artist: 'daiki torii' },
+                { title: 'HirO (-線-)', artist: '天音' },
+                { title: '救いを求めるヒトの詩', artist: '岩口和暖' },
+                { title: '海の森', artist: '近藤佑輔' },
+                { title: '救いを求めるヒトの詩 (-Piano version-)', artist: '岩口和暖' },
+                { title: 'LaVI-Bavellabion (feat. GUMI)', artist: 'SLAVE.V-V-R / GUMI' },
+                { title: 'MAdEaR MAdEaR (feat. 夢ノ結唱 ROSE)', artist: 'SLAVE.V-V-R / 夢ノ結唱 ROSE' },
+                { title: '愛の残滓', artist: '藍月なくる' },
+                { title: 'bloom', artist: '三木谷奈々' },
+                { title: 'Songclave', artist: 'Christopher Larkin' },
+                { title: 'Trobbio', artist: 'Christopher Larkin' },
+                { title: 'Awakening', artist: 'Christopher Larkin' },
+                { title: 'Angel Echo', artist: 'Silentroom' },
+                { title: 'ハローセカイ', artist: 'DECO*27' },
+                { title: '青丘', artist: 'BLACK 0' },
+                { title: '扶桑 THE FUSOR ARBOR', artist: 'BLACK 0' },
+                { title: 'dream of utopia', artist: 'ILusMin / Moonset / 初云CLoudie' },
+                { title: 'GlassyHeart. (to where we belong.)', artist: 'ILusMin / Bob Hou' },
+                { title: 'ViRTUS', artist: '川口博史' },
+                { title: 'Lament Rain', artist: '打打だいず / Ashrount' },
+                { title: '多次元宇宙融合論', artist: 'TAKIO / つぐ' },
+                { title: 'Filament', artist: 'Puru' },
+                { title: 'Cyaegha', artist: 'USAO' },
+                { title: 'Last Man Standing', artist: 'FFXX' },
+                { title: 'Jaws of the Machine (Yanlao\'s Theme)', artist: 'Troy Lin / FFXX' },
+                { title: 'QZKago Requiem', artist: 't+pazolite' },
+                { title: 'Nyarlathotep\'s Dreamland', artist: 'Raimukun' },
+                { title: 'Fly Again', artist: 'Fujiyori' },
+                { title: 'Bilewater', artist: 'Christopher Larkin' },
+                { title: 'Skarrsinger Karmelita', artist: 'Christopher Larkin' },
+                { title: 'Last Dive', artist: 'Christopher Larkin' },
+                { title: 'Lost Lace', artist: 'Christopher Larkin' },
+                { title: 'Tera I / O', artist: 'かめりあ' },
+                { title: '十拳剣 -Totsuka no Tsurugi-', artist: '5KiLOBYTE / Raphiiel' },
+                { title: 'Ennor', artist: 'Raimukun' },
+                { title: 'LIFE', artist: 'Neuro-sama' },
+                { title: 'Unwinding', artist: 'Celeste Strawberry Jam / usuyus' },
+                { title: 'Cogwork Core', artist: 'Christopher Larkin' },
+                { title: 'Bellhart', artist: 'Christopher Larkin' },
+                { title: 'Bone Bottom', artist: 'Christopher Larkin' },
+                { title: 'Choral Chambers', artist: 'Christopher Larkin' },
+                { title: 'last § heaven', artist: 'ああああ' },
+                { title: 'モニタリング (Best Friend Remix)', artist: 'DECO*27' },
+                { title: 'Ether Strike', artist: 'Akira Complex' },
+                { title: 'Retribution ~ Cycle of Redemption ~', artist: 'Daily天利' },
+                { title: '天天天国地獄国 (feat. ななひら & P丸様。)', artist: 'Aiobahn +81 / ななひら / P丸様。' },
+                { title: 'NEVER (feat. Evil Neuro)', artist: 'Neuro-sama / Evil Neuro' },
+                { title: '雑魚', artist: '柊マグネタイト' },
+                { title: 'テトリス', artist: '柊マグネタイト / 重音テト' },
+                { title: 'T氏の話を信じるな (feat. 初音ミク & 重音テト)', artist: 'ピノキオピー / 初音ミク / 重音テト' },
+                { title: 'テレパシ', artist: 'DECO*27' },
+                { title: '蜘蛛糸モノポリー', artist: 'sasakure.UK / 初音ミク' },
+                { title: '東方緋想天', artist: '黄昏フロンティア / 上海アリス幻樂団' },
+                { title: 'Starfruit Supernova (Pillars of Creation Mix)', artist: 'Celeste Strawberry Jam / catapillie' },
+                { title: '星の記憶(feat.初音ミク)', artist: 'A-39 / 沙包P / 初音ミク' },
+                { title: '#1f1e33', artist: 'かめりあ' },
+                { title: 'Delirium', artist: 'fang' },
+                { title: 'Colosseum (Project-G Remix)', artist: 'Project-G' },
+                { title: 'GIGA EXTEND', artist: 'Blacklolita' },
+                { title: 'B L A C K - R A Y', artist: 'かめりあ' },
+                { title: 'Apocaliptix', artist: 'Juggernaut.' },
+                { title: 'Valhalla:0 (Extended) ©lowiro', artist: 'Juggernaut.' },
+                { title: 'Siegfried', artist: 'Juggernaut.' },
+                { title: 'Catastrophe', artist: 'Juggernaut.' },
+                { title: '未完成讃歌 (feat. 初音ミク)', artist: 'しゃいと / 初音ミク' },
+                { title: 'Whispers from a Distant Star', artist: 'Fractal Dreamers' },
+                { title: 'Frozen Heart(feat.初音ミク)', artist: 'A-39 / 沙包P / 初音ミク' },
+                { title: 'Fantasia Sonata Arcadia', artist: 'PYKAMIA' },
+                { title: 'BOOM', artist: 'Evil Neuro' },
+                { title: 'What\'s up? Pop! (feat. 初音ミク)', artist: 'カプチー / 初音ミク' },
+                { title: 'Dark Sanctuary', artist: 'Toby Fox' },
+                { title: 'From Now On (Battle 2)', artist: 'Toby Fox' },
+                { title: 'The Second Sanctuary', artist: 'Toby Fox' },
+                { title: 'The Third Sanctuary', artist: 'Toby Fox' },
+                { title: 'GUARDIAN', artist: 'Toby Fox' },
+                { title: 'Neverending Night', artist: 'Toby Fox' },
+                { title: 'Raise Up Your Bat', artist: 'Toby Fox' },
+                { title: 'Black Knife', artist: 'Toby Fox' },
+                { title: 'It\'s TV Time!', artist: 'Toby Fox' },
+                { title: 'Ruder Buster', artist: 'Toby Fox' },
+                { title: 'TV WORLD', artist: 'Toby Fox' },
+                { title: 'Flashback (Excerpt)', artist: 'Toby Fox' },
+                { title: 'Credits EX', artist: 'Frums' },
+                { title: '希望有羽毛和翅膀', artist: '知更鸟 / HOYO-MiX / Chevy' },
+                { title: 'Mind Enhancement', artist: 'PIKASONIC' },
+                { title: 'Realms', artist: 'Hinkik / A Himitsu' },
+                { title: '星相运轨-The End of Time-', artist: 'EndCat-终猫' },
+                { title: 'Future Race', artist: 'DarTokki' },
+                { title: 'Rrhar\'il', artist: 'Team Grimoire' },
+                { title: 'Unity', artist: 'TheFatRat' },
+                { title: 'バケモノの唄', artist: 'Shino / 初音ミク' },
+                { title: 'Kiss The Rain 비를 맞다', artist: 'Yiruma' },
+                { title: '上海紅茶館 ～ Chinese Tea Orchid Remix (Extended ver.)', artist: 'Yooh' },
+                { title: '砕月', artist: 'Pizuya\'s Cell' },
+                { title: '月に叢雲華に風', artist: '森永真由美' },
+                { title: '色は匂へど 散りぬるを -Full Version-', artist: '森永真由美' },
+                { title: '泡沫、哀のまほろば (OP Ver.)', artist: '森永真由美' },
+                { title: '花月夜', artist: 'Yonder Voice / 瑶山百霊' },
+                { title: '色は匂へど散りぬるを(OPver.1.2) [with senya]', artist: '幽閉サテライト' },
+                { title: '神々が恋した幻想郷', artist: '上海アリス幻樂団' },
+                { title: 'Apollo', artist: 'TJ.hangneil' },
+                { title: 'フンフンフン♪だよ、らき☆すた', artist: '神前暁' },
+                { title: 'もってけ！セーラーふく', artist: '神前暁 / 平野綾 / 加藤英美里 / 福原香織 / 遠藤綾' },
+                { title: 'Brain Power', artist: 'NOMA' },
+                { title: '月下繚乱 ~音ゲーの型~', artist: 'minus7LUFS / 月見静華' },
+                { title: 'テリトリーバトル', artist: 'ツユ' },
+                { title: 'インフェルノシティ (feat. はぁち)', artist: 'Ponchi♪ / はぁち' },
+                { title: 'Stasis', artist: 'Maozon' },
+                { title: 'ぱぴぷぴぷぴぱ', artist: 'ころねぽち' },
+                { title: 'Labyrinth in Kowloon: Walled World', artist: 'かめりあ' },
+                { title: 'Dance with Silence', artist: 'かめりあ' },
+                { title: 'NULCTRL', artist: 'Silentroom' },
+                { title: 'Protoflicker', artist: 'Silentroom' },
+                { title: 'Sense', artist: 'BilliumMoto / Silentroom' },
+                { title: 'Visions', artist: 'Acreix' },
+                { title: 'MAGENTA POTION (Extended Mix)', artist: 'EmoCosine' },
+                { title: 'Higher', artist: 'Tobu' },
+                { title: 'Parallel Universe Shifter', artist: 'かめりあ' },
+                { title: '「リテラチュア」魔女之旅op (翻自 上田麗奈)', artist: 'Tsubaki椿' },
+                { title: 'Cheat Codes', artist: 'Nitro Fun' },
+                { title: 'Nevada', artist: 'Vicetone / Cozi Zuehlsdorff' },
+                { title: 'Neon Rainbow', artist: 'Rameses B / Anna Yvette' },
+                { title: '"Vs. Frisk [Battle In Chaos]" (NITRO Remix)', artist: 'Nick Nitro' },
+                { title: 'Androgynos (Full Phase)', artist: 'BlackY' },
+                { title: 'Polygons (Remastered)', artist: 'Riya' },
+                { title: 'Unwelcome School', artist: 'ミツキヨ' },
+                { title: 'Moog City 2', artist: 'Sheet Music Boss' },
+                { title: '世界は可愛く出来ている', artist: '上海アリス幻樂団' },
+                { title: 'スカーレット警察のゲットーパトロール24時 (MV Version)', artist: 'IOSYS' },
+                { title: 'チルノのパーフェクトさんすう教室 - Alternative ending', artist: 'ARM' },
+                { title: 'apOapSis', artist: 'Euphem1a. / Electrode Core' },
+                { title: 'Curse of 14', artist: 'R_TOP' },
+                { title: 'Fly To Meteor (ft.兔柒)', artist: 'xzadudu179 / ShooTinGStaR / MoryueCi / Yuria_兔柒 / Electrode Core' },
+                { title: 'Fly To Meteor (Milthm Edit)', artist: 'xzadudu179 / ShooTinGStaR / MoryueCi / Electrode Core / Milthm' },
+                { title: '初音未来的消失', artist: '初音ミク / cosMo@暴走P' },
+                { title: '国士無双', artist: 'Laur' },
+                { title: '竹 (feat. ちょこ)', artist: '立秋 / ちょこ' },
+                { title: '+ERABY+E CONNEC+10N', artist: 'かめりあ' },
+                { title: 'For River - Piano (Sarah & Tommy\'s Version)', artist: 'Kan R. Gao' },
+                { title: 'For River - Piano (Johnny\'s Version)', artist: 'Kan R. Gao' },
+                { title: 'Used to be', artist: 'KIVΛ' },
+                { title: 'Ⅱ́̕', artist: 'Cytus' },
+                { title: 'Cytus2 Title Mix', artist: 'PuppyMmmm / KIVΛ' },
+                { title: 'Memory of Dystopia', artist: 'ARForest' },
+                { title: 'Travel Begins', artist: 'ARForest' },
+                { title: 'Journey (Remake ver.)', artist: 'ARForest' },
+                { title: 'Art for Rest', artist: 'ARForest' },
+                { title: '38317 (Remake)', artist: 'Plum - Melodic Artist' },
+                { title: 'Kaleidoscope', artist: 'Plum - Melodic Artist' },
+                { title: '별이 보이지 않는 밤 (2021 Remake)', artist: 'Plum - Melodic Artist' },
+                { title: 'The Lost Aria', artist: 'Plum - Melodic Artist' },
+                { title: 'Orca', artist: 'Plum - Melodic Artist' },
+                { title: 'MemoryLocked', artist: 'Plum - Melodic Artist' },
+                { title: 'Classy Kitty', artist: 'Snakywine' },
+                { title: 'First Steps (Piano Only)', artist: 'Lena Raine' },
+                { title: 'Summit (No More Running Mix)', artist: 'Lena Raine / Kuraine' },
+                { title: 'Golden Ridge (Golden Feather Mix)', artist: 'Lena Raine / In Love With A Ghost' },
+                { title: 'Postcard from Celeste Mountain', artist: 'Lena Raine' },
+                { title: 'Garden', artist: 'NceS / All_Life_X / AiSS' },
+                { title: 'Adieux', artist: 'AiSS' },
+                { title: 'Luminescence', artist: '米虾Fomiki / 初云CLoudie / 卉HUI-Works' },
+                { title: 'Regnaissance', artist: 'AiSS' },
+                { title: 'Abiogenesis', artist: 'Juggernaut.' },
+                { title: 'Antler', artist: 'Juggernaut.' },
+                { title: 'Wolves Standing Towards Enemies', artist: 'かめりあ' },
+                { title: 'Testify (feat. 星熊南巫)', artist: 'void / 星熊南巫' },
+                { title: 'LAMIA', artist: 'BlackY' },
+                { title: 'Beyond The Timeline', artist: 'Plum - Melodic Artist' },
+                { title: 'Chronostasis', artist: '黒皇帝' },
+                { title: 'Plum - MEGAMIX', artist: '摸你沙' },
+                { title: 'クローバーのやくそく', artist: 'ああああ' },
+                { title: 'Life is PIANO', artist: 'Junk' },
+                { title: 'enchanted love', artist: 'linear ring' },
+                { title: '僕たちの旅とエピローグ。 (Long ver.)', artist: 'ああああ' },
+                { title: 'blue comet', artist: 'ああああ' },
+                { title: 'エンドロールはつづいてく。', artist: 'ああああ' },
+                { title: 'Dahlia', artist: 'ああああ / Aoi' },
+                { title: 'Resolver', artist: 'GTS Sound Team / Gomadare' },
+                { title: 'Luminous Entities Lost Heart', artist: 'GTS Sound Team / うさぎでんき / NormalM' },
+                { title: 'The Last Page', artist: 'ARForest' },
+                { title: 'Skyscape', artist: 'Plum - Melodic Artist' },
+                { title: 'Sterelogue', artist: 'VeetaCrush' },
+                { title: 'Alexandrite', artist: 'onoken' },
+                { title: 'Vanilla Flavored Soda', artist: 'Plum - Melodic Artist' },
+                { title: 'Hemisphere', artist: 'ARForest' },
+                { title: 'Breakcore WTF!?', artist: 'LeaF' },
+                { title: 'Inverted World', artist: 'ARForest' },
+                { title: 'Miku', artist: '初音ミク / Anamanaguchi' },
+                { title: 'Crave Wave', artist: 'LandRoot' },
+                { title: 'ALTER EGO', artist: 'Yuta Imai / Qlarabelle' },
+                { title: 'DIGITAL:CANVAS', artist: 'Plum - Melodic Artist' },
+                { title: 'Don\'t Forget', artist: 'Toby Fox / Laura Shigihara' },
+                { title: 'THE WORLD REVOLVING', artist: 'Toby Fox' },
+                { title: 'Snowy', artist: 'Toby Fox' },
+                { title: 'BIG SHOT', artist: 'Toby Fox' },
+                { title: 'Home', artist: 'Toby Fox' },
+                { title: 'Battle Against A True Hero', artist: 'Toby Fox' },
+                { title: 'Finale', artist: 'Toby Fox' },
+                { title: 'Death By Glamour', artist: 'Toby Fox' },
+                { title: 'sans.', artist: 'Toby Fox' },
+                { title: 'Hopes And Dreams', artist: 'Toby Fox' },
+                { title: 'Terrasphere', artist: 'Plum - Melodic Artist' },
+                { title: 'Automaton Waltz', artist: 'Plum - Melodic Artist' },
+                { title: 'Infinite Strife,', artist: 'BlackY / siromaru / Yooh' },
+                { title: 'Eutopia', artist: 'Yooh' },
+                { title: 'GOODRAGE', artist: 'EBIMAYO / KEIGO KOBUCHI' },
+                { title: 'Horizon Blue(feat.Aikapin／Chiyoko)', artist: 'Notebook Records / Aikapin / ちよこ' },
+                { title: '今年も「雪降り、メリクリ」目指して頑張ります！！', artist: 'Daily天利 / AiSS / A-39 / 沙包P / 夜轮' },
+                { title: 'Blackbird', artist: 'Kobaryo' },
+                { title: 'Hello (BPM) 2025', artist: 'かめりあ' },
+                { title: '千本桜', artist: '黒うさP / 初音ミク' },
+                { title: 'ジングルベル(Jingle bell)', artist: 'A-39 / 沙包P / 初音ミク' },
+                { title: 'RE Aoharu', artist: 'Nor' },
+                { title: 'Bad Apple!!', artist: 'のみこ' },
+                { title: 'ステラ (feat. 星乃一歌&天馬咲希&望月穂波&日野森志歩&初音ミク)', artist: 'じん / Leo/need / 初音ミク' },
+                { title: 'ステラ', artist: 'じん / 初音ミク' },
+                { title: 'Miku', artist: 'Anamanaguchi / 初音ミク' },
+                { title: 'Super Nova Project', artist: 'shadow_bling' },
+                { title: 'the world of scarlet', artist: 'OfficialAz3' },
+                { title: 'PUPA', artist: 'モリモリあつし' },
+                { title: 'モニタリング', artist: 'DECO*27' },
+                { title: 'El último baile', artist: 'KθZyo' },
+                { title: 'TECHNOPOLIS 2085', artist: 'PRASTIK DANCEFLOOR' },
+                { title: '零號車輛', artist: 'seatrus' },
+                { title: 'Cuvism³', artist: 'Fl00t / Halv' },
+                { title: 'NightTheater', artist: 'わかどり' },
+                { title: 'Distorted Fate', artist: '削除' },
+                { title: 'DESTRUCTION 3,2,1', artist: 'Supa7onyz' },
+                { title: 'The Chariot ~REVIIVAL~', artist: 'Attoclef' },
+                { title: '聖夜讃歌(feat.初音ミク)', artist: 'A-39 / 沙包P / 初音ミク' },
+                { title: 'Broken Sky', artist: '刘佳宜Snow / Jungo / MAX 3 / 幻影刃shadow / Sakura Records Official-樱花记录' },
+                { title: 'Quadruplicity', artist: 'LucaProject / NeLiME' },
+                { title: 'Awaken in Ruins', artist: 'Supa7onyz' },
+                { title: 'How To Make 音ゲ～曲！', artist: 'F Rabbeat' },
+                { title: 'Clock Paradox', artist: 'WyvernP' },
+                { title: 'Singularity at 2.64e+6 BPM', artist: 'Kobaryo' },
+                { title: 'Crossroads', artist: 'Christopher Larkin' },
+                { title: 'Crystal Peak', artist: 'Christopher Larkin' },
+                { title: 'Greenpath', artist: 'Christopher Larkin' },
+                { title: 'Resting Grounds', artist: 'Christopher Larkin' },
+                { title: 'Destr0yer', artist: '削除 / Nikki Simmons' },
+                { title: 'Chronokinesia', artist: 'Project-G' },
+                { title: 'Vulcānus', artist: 'Team Grimoire / Aoi' },
+                { title: 'S.A.T.E.L.L.I.T.E.', artist: 'かめりあ' },
+                { title: 'Please', artist: 'r300k' },
+                { title: 'Starlight Traveler', artist: '打打だいず / ああああ' },
+                { title: 'Last Goodbye', artist: 'Toby Fox' },
+                { title: 'MEGALOVANIA (Camellia Remix)', artist: 'かめりあ' },
+                { title: 'Designant.', artist: 'Designant' },
+                { title: 'City of Tears', artist: 'Christopher Larkin' },
+                { title: 'Dream Eater (Solkrieg Dubstep Remix)', artist: 'Solkrieg' },
+                { title: '千紫万紅', artist: 'r0y / WABI' },
+                { title: 'Tempestissimo', artist: 't+pazolite' },
+                { title: 'Altale', artist: '削除' },
+                { title: 'crystallized', artist: 'かめりあ' },
+                { title: 'First Town Of This Journey', artist: 'かめりあ' },
+                { title: 'BIG SHOT (Camellia Remix) [From Deltarune Ch.2]', artist: 'かめりあ / Toby Fox' },
+                { title: 'Hello (BPM) 2021', artist: 'かめりあ' },
+                { title: 'LORELEI', artist: 'かめりあ' },
+                { title: 'Disorder (feat. YURI)', artist: 'HyuN / yuri' },
+                { title: 'Infinity Heaven', artist: 'HyuN' },
+                { title: 'Theme V - Credits', artist: 'James Primate' },
+                { title: 'Grin', artist: 'HyuN' },
+                { title: 'Defection', artist: 'TeddyLoid' },
+                { title: 'Icyxis ~True Ending~', artist: 'Raimukun' },
+                { title: 'Heaven', artist: 'Tobu' },
+                { title: 'Ad astra per aspera', artist: 'Rabbit House' },
+                { title: 'Rainy Heart', artist: '阿卡姆巫师' },
+                { title: 'R', artist: 'Plum - Melodic Artist' },
+                { title: 'iL-Artifact', artist: 'Link"0' },
+                { title: '無人区-Vacuum Track#ADD8E6-', artist: 'NoKANY' },
+                { title: 'Hello (BPM) 2024', artist: 'かめりあ' },
+                { title: 'RTX 20000', artist: 'Kobaryo' },
+                { title: 'First Steps', artist: 'Lena Raine' },
+                { title: 'Reach for the Summit', artist: 'Lena Raine' },
+                { title: 'ほしのおとしもの', artist: 'ああああ' },
+                { title: 'Frozen Dream (Milthm ver.)', artist: 'xzadudu179' },
+                { title: 'Villain Virus', artist: 'Kobaryo / かめりあ' },
+                { title: 'Aphasia', artist: '闫东炜' },
+                { title: 'a truth seeker -Communication with Utopia will be lost-', artist: 'kuro' },
+                { title: 'One Forgotten Night', artist: 'Quree' },
+                { title: 'Kirakira Noel Story!!', artist: 'Reku Mochizuki' },
+                { title: 'Kronos', artist: '削除' },
+                { title: 'Nhelv', artist: 'Silentroom' },
+                { title: 'Avantgarde', artist: 'Raimukun' },
+                { title: '雨·塔 ~Cactus\'s Resolve~', artist: 'Daily天利' },
+                { title: 'Light of Nibel (feat. Aeralie Brighton)', artist: 'Gareth Coker / Aeralie Brighton' },
+                { title: 'Artificial Existence', artist: 'Jun Kuroda' },
+                { title: 'Corrupted', artist: 'Danimal Cannon' },
+                { title: 'bye', artist: 'DingerBox' },
+                { title: '驟雨の狭間', artist: 'Silentroom' },
+                { title: 'Undertale - Spider Dance (Shirobon Remix)', artist: 'Shirobon' },
+                { title: '心の記憶(feat.Miku)', artist: 'A-39 / 初音ミク / 沙包P' },
+                { title: '星相运轨-Echo of the Universe-', artist: 'AiSS / EndCat-终猫' },
+                { title: 'Arrowhead', artist: 'Feint' },
+                { title: 'Particle Arts', artist: 'Virtual Self' },
+                { title: 'R.I.P.', artist: 'eicateve' },
+                { title: 'Until Next Time', artist: 'Toby Fox' },
+                { title: 'A CYBER\'S WORLD?', artist: 'Toby Fox' },
+                { title: 'Before The Story', artist: 'Toby Fox' },
+                { title: 'Field Of Hopes And Dreams', artist: 'Toby Fox' },
+                { title: 'Flower Rocket', artist: 'Plum - Melodic Artist' },
+                { title: 'Rainbow Chaser (2021 Remake)', artist: 'Plum - Melodic Artist' },
+                { title: 'CHAOS', artist: 'Æsir' },
+                { title: 'GALACTIC WARZONE', artist: 'Akira Complex' },
+                { title: 'Bloom', artist: '麻团qwq / targ / 维度坍缩' },
+                { title: 'Till It\'s Over', artist: 'Tristam' },
+                { title: 'The Last Page', artist: 'ARForest' },
+                { title: 'Face Down (Original Mix)', artist: 'Feint' },
+                { title: 'Nine Sols', artist: '珂拉琪 Collage' },
+                { title: 'CASE (呆萌K)-Cyberpunk (Flowesans Remix) (The Wavers remix)', artist: 'The Wavers' },
+                { title: 'Frozen Dream', artist: 'xzadudu179' },
+                { title: 'Sunburst', artist: 'Tobu / Itro' },
+                { title: 'Art for Last', artist: 'ARForest' },
+                { title: 'THE WORLD REVOLVING (Camellia Remix)', artist: 'かめりあ' },
+                { title: 'Explorers', artist: 'Hinkik' },
+                { title: 'WATER(Feat.Miku)', artist: 'A-39 / 沙包P / 初音ミク' },
+                { title: 'Dusk', artist: 'Peter Jeremias' },
+                { title: '星河不及你', artist: 'AnRain安林' },
+                { title: 'Sun', artist: 'Steerner / Martell' },
+                { title: 'Call of Silence', artist: 'Haru' },
+                { title: 'Lifeline', artist: 'Zeraphym 六翼使徒' },
+                { title: 'His Theme', artist: 'Toby Fox' },
+                { title: 'Undertale', artist: 'Toby Fox' },
+                { title: 'PRAGMATISM -RESURRECTION-', artist: 'Laur' },
+                { title: 'Cyberpunk', artist: 'CASE（呆萌K）' },
+                { title: 'Innocent white', artist: '影虎。' },
+                { title: '雪降り ~雪が降っている~', artist: 'AiSS / Daily天利 / A-39 / 沙包P / NE1516Hz' },
+                { title: 'Secret Illumination', artist: 'Yooh' },
+                { title: 'Journey with You', artist: 'Iris' },
+                { title: '云女孩', artist: '符白牙 / lunari.io' },
+                { title: 'Chronomia', artist: 'Kankitsu' },
+                { title: '雨女', artist: 'TsukiP' },
+                { title: 'Stardrop Tears', artist: 'Plum - Melodic Artist' },
+                { title: 'Destination', artist: 'iMeiden' },
+                { title: 'It\'s alright', artist: 'ARForest' }
+            ];
+            
+            // 渲染音乐列表
+            function renderMusicList(filter = '') {
+                musicList.innerHTML = '';
+                
+                const filteredMusic = musicData.filter(music => {
+                    const searchTerm = filter.toLowerCase();
+                    return music.title.toLowerCase().includes(searchTerm) || 
+                           music.artist.toLowerCase().includes(searchTerm);
+                });
+                
+                if (filteredMusic.length === 0) {
+                    musicList.innerHTML = '<div style="text-align: center; padding: 2rem; color: var(--text-secondary);"><i class="fas fa-music" style="font-size: 2rem; margin-bottom: 1rem; opacity: 0.5;"></i><p>没有找到匹配的音乐</p></div>';
+                    return;
+                }
+                
+                filteredMusic.forEach(music => {
+                    const musicItem = document.createElement('div');
+                    musicItem.className = 'music-item';
+                    
+                    musicItem.innerHTML = `
+                        <div class="music-info">
+                            <div class="music-title">${music.title}</div>
+                            <div class="music-artist">${music.artist}</div>
+                        </div>
+                        <div class="music-actions">
+                            <button class="btn btn-primary search-music" data-title="${music.title}" data-artist="${music.artist}" data-platform="netease">
+                                <i class="fas fa-music"></i> 网易云
+                            </button>
+                            <button class="btn btn-danger search-music" data-title="${music.title}" data-artist="${music.artist}" data-platform="bilibili">
+                                <i class="fab fa-bilibili"></i> B站
+                            </button>
+                            <button class="btn btn-warning search-music" data-title="${music.title}" data-artist="${music.artist}" data-platform="youtube">
+                                <i class="fab fa-youtube"></i> YouTube
+                            </button>
+                        </div>
+                    `;
+                    
+                    musicList.appendChild(musicItem);
+                });
+                
+                // 添加搜索按钮事件
+                document.querySelectorAll('.search-music').forEach(button => {
+                    button.addEventListener('click', function() {
+                        const title = this.getAttribute('data-title');
+                        const artist = this.getAttribute('data-artist');
+                        const platform = this.getAttribute('data-platform');
+                        searchMusic(title, artist, platform);
+                    });
+                });
+            }
+            
+            // 搜索音乐
+            function searchMusic(title, artist, platform = 'netease') {
+                const searchQuery = encodeURIComponent(`${title} ${artist}`);
+                let searchUrl = '';
+                
+                switch(platform) {
+                    case 'netease':
+                        searchUrl = `https://music.163.com/#/search/m/?s=${searchQuery}&type=1`;
+                        break;
+                    case 'bilibili':
+                        searchUrl = `https://search.bilibili.com/all?keyword=${searchQuery}`;
+                        break;
+                    case 'youtube':
+                        searchUrl = `https://www.youtube.com/results?search_query=${searchQuery}`;
+                        break;
+                    default:
+                        searchUrl = `https://music.163.com/#/search/m/?s=${searchQuery}&type=1`;
+                }
+                
+                window.open(searchUrl, '_blank');
+            }
+            
+            // 搜索功能
+            musicSearch.addEventListener('input', function() {
+                renderMusicList(this.value);
+            });
+            
+            // 清除搜索
+            clearSearch.addEventListener('click', function() {
+                musicSearch.value = '';
+                renderMusicList();
+            });
+            
+            // 初始渲染
+            renderMusicList();
+        }
+
+        // 设置功能实现
+        function initializeSettings() {
+            const snowEffect = document.getElementById('snowEffect');
+            const clickEffect = document.getElementById('clickEffect');
+            const autoSaveNotes = document.getElementById('autoSaveNotes');
+            const gameSounds = document.getElementById('gameSounds');
+            
+            // 加载保存的设置
+            function loadSettings() {
+                snowEffect.checked = localStorage.getItem('snowEffect') !== 'false';
+                clickEffect.checked = localStorage.getItem('clickEffect') !== 'false';
+                autoSaveNotes.checked = localStorage.getItem('autoSaveNotes') === 'true';
+                gameSounds.checked = localStorage.getItem('gameSounds') !== 'false';
+                
+                // 应用设置
+                applySettings();
+            }
+            
+            // 应用设置
+            function applySettings() {
+                if (snowEffect.checked) {
+                    startSnowEffect();
+                } else {
+                    stopSnowEffect();
+                }
+                
+                if (clickEffect.checked) {
+                    enableClickEffect();
+                } else {
+                    disableClickEffect();
+                }
+            }
+            
+            // 雪花效果
+            let snowInterval;
+            function startSnowEffect() {
+                stopSnowEffect(); // 先停止现有的效果
+                
+                snowInterval = setInterval(() => {
+                    createSnowflake();
+                }, 100);
+            }
+            
+            function stopSnowEffect() {
+                if (snowInterval) {
+                    clearInterval(snowInterval);
+                }
+            }
+            
+            function createSnowflake() {
+                const snowflake = document.createElement('div');
+                snowflake.className = 'snowflake';
+                snowflake.innerHTML = '❄';
+                snowflake.style.left = Math.random() * 100 + 'vw';
+                snowflake.style.animationDuration = Math.random() * 3 + 2 + 's';
+                snowflake.style.opacity = Math.random();
+                snowflake.style.fontSize = Math.random() * 10 + 10 + 'px';
+                
+                document.body.appendChild(snowflake);
+                
+                setTimeout(() => {
+                    snowflake.remove();
+                }, 5000);
+            }
+            
+            // 点击特效
+            function enableClickEffect() {
+                document.addEventListener('click', createClickEffect);
+            }
+            
+            function disableClickEffect() {
+                document.removeEventListener('click', createClickEffect);
+            }
+            
+            function createClickEffect(e) {
+                const effect = document.createElement('div');
+                effect.className = 'click-effect';
+                effect.style.left = e.clientX - 10 + 'px';
+                effect.style.top = e.clientY - 10 + 'px';
+                
+                document.body.appendChild(effect);
+                
+                setTimeout(() => {
+                    effect.remove();
+                }, 500);
+            }
+            
+            // 保存设置
+            function saveSettings() {
+                localStorage.setItem('snowEffect', snowEffect.checked);
+                localStorage.setItem('clickEffect', clickEffect.checked);
+                localStorage.setItem('autoSaveNotes', autoSaveNotes.checked);
+                localStorage.setItem('gameSounds', gameSounds.checked);
+                
+                applySettings();
+            }
+            
+            // 事件监听
+            snowEffect.addEventListener('change', saveSettings);
+            clickEffect.addEventListener('change', saveSettings);
+            autoSaveNotes.addEventListener('change', saveSettings);
+            gameSounds.addEventListener('change', saveSettings);
+            
+            // 初始化设置
+            loadSettings();
         }
 
         // 扫雷游戏实现
